@@ -7,6 +7,6 @@ RUN pip install -U tensorflow==1.14.0rc0 && \
 
 ADD tensor-example.py /home/
 
-CMD ["/usr/bin/python", "/home/tensor-example.py]
+CMD ["/usr/bin/python", "/home/tensor-example.py"]
 
 #https://www.tensorflow.org/alpha/tutorials/images/hub_with_keras
