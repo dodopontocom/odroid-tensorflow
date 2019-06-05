@@ -20,7 +20,7 @@ classifier = tf.keras.Sequential([
 ])
 
 
-grace_hopper = tf.keras.utils.get_file('image.jpg','http://www.construtoracarvalhopereira.com.br/images/REF016/001.jpg')
+grace_hopper = tf.keras.utils.get_file('image.jpg','http://www.construtoracarvalhopereira.com.br/images/REF017/002.jpg')
 #grace_hopper = tf.keras.utils.get_file('image.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg')
 grace_hopper = Image.open(grace_hopper).resize(IMAGE_SHAPE)
 grace_hopper
