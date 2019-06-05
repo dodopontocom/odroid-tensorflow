@@ -9,6 +9,9 @@ import tensorflow_hub as hub
 from tensorflow.keras import layers
 import numpy as np
 import PIL.Image as Image
+import sys
+
+URL = sys.argv[1]
 
 tf.enable_eager_execution()
 
@@ -19,8 +22,7 @@ classifier = tf.keras.Sequential([
     hub.KerasLayer(classifier_url, input_shape=IMAGE_SHAPE+(3,))
 ])
 
-
-grace_hopper = tf.keras.utils.get_file('image.jpg','https://docemalu.vteximg.com.br/arquivos/ids/176667-1000-1000/108826-1.jpg')
+grace_hopper = tf.keras.utils.get_file('image.jpg',URL)
 #grace_hopper = tf.keras.utils.get_file('image.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg')
 grace_hopper = Image.open(grace_hopper).resize(IMAGE_SHAPE)
 grace_hopper
