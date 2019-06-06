@@ -45,7 +45,7 @@ do
 					if [[ $? -eq 0 ]]; then
 						elapsed="\`(tempo de processamento: $(tail -1 /tmp/usar_urandom.log))\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "Produto: $(echo -e $elapsed)" \
+								--text "$(echo -e $elapsed)" \
 								--parse_mode markdown
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "Produto: $(echo -e $produto)" \
@@ -63,6 +63,11 @@ do
 							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 									--text "Valor: $(echo ${valor})" \
 									--parse_mode markdown
+						else
+							msg="Valor não registrado para o produto \`$produto\`"
+							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+									--text "Valor: $(echo -e ${msg})" \
+									--parse_mode markdown						
 						fi
 					fi
 				}
