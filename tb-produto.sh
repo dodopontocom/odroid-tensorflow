@@ -58,7 +58,7 @@ do
 
 					resultado=$(cat $imageLab | grep -i "$produto")
 					if [[ ! -z $resultado ]]; then
-						valor=$(cat $imageLab | grep -i "$resultado:" | cut -d':' -f2)
+						valor=$(cat $imageLab | grep -i "$produto:" | cut -d':' -f2)
 						if [[ ! -z $valor ]]; then
 							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 									--text "Valor: $(echo ${valor})" \
@@ -66,7 +66,7 @@ do
 						else
 							msg="Valor não registrado para o produto \`$produto\`"
 							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-									--text "Valor: $(echo -e ${msg})" \
+									--text "$(echo -e ${msg})" \
 									--parse_mode markdown						
 						fi
 					fi
