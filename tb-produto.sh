@@ -40,11 +40,15 @@ do
 						--text "Processando, aguarde uns instantes..." \
 						--parse_mode markdown
 
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')")
-					message=$(echo $message | cut -d'|' -f2)
+					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
+					produto=$(tail -2 /tmp/usar_urandom.log | head -1)
 					if [[ $? -eq 0 ]]; then
+						elapsed="\`(tempo de processamento: $(tail -1 /tmp/usar_urandom.log))\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "Produto: $(echo -e $message | cut -d'|' -f2)" \
+								--text "Produto: $(echo -e $elapsed)" \
+								--parse_mode markdown
+						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+								--text "Produto: $(echo -e $produto)" \
 								--parse_mode markdown
 					else
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -52,7 +56,7 @@ do
 								--parse_mode markdown
 					fi
 
-					resultado=$(cat $imageLab | grep -i $message)
+					resultado=$(cat $imageLab | grep -i $produto)
 					if [[ ! -z $resultado ]]; then
 						valor=$(cat $imageLab | grep $resultado | cut -d':' -f2)
 						if [[ ! -z $valor ]]; then
