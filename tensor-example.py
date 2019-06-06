@@ -14,7 +14,7 @@ import time
 
 start = time.time()
 
-URL = sys.argv[1]
+image_url = sys.argv[1]
 
 tf.enable_eager_execution()
 
@@ -27,7 +27,7 @@ classifier = tf.keras.Sequential([
 
 #grace_hopper = tf.keras.utils.get_file(URL)
 #grace_hopper = tf.keras.utils.get_file('image.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg')
-grace_hopper = Image.open(URL).resize(IMAGE_SHAPE)
+grace_hopper = Image.open(image_url).resize(IMAGE_SHAPE)
 grace_hopper
 
 grace_hopper = np.array(grace_hopper)/255.0
