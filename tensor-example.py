@@ -12,6 +12,9 @@ import PIL.Image as Image
 import sys
 import time
 
+#test_loss, test_acc = model.evaluate(test_images, test_labels)
+#print('Test accuracy:', test_acc)
+
 start = time.time()
 
 image_url = sys.argv[1]
