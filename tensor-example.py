@@ -49,7 +49,7 @@ predicted_class_name = imagenet_labels[predicted_class]
 #_ = print("Prediction: |" + predicted_class_name.title())
 
 def return_print():
-    return print("prediction: " + predicted_class_name.title())
+    return print(predicted_class_name.title())
 
 return_print()
 
@@ -58,4 +58,4 @@ def elapsed_function():
     slapsed = done - start
     return slapsed
 
-#print(elapsed_function())
+print(elapsed_function())
