@@ -13,7 +13,7 @@
 source ShellBot.sh
 
 # Token do bot
-bot_token='$(cat .token)'
+bot_token=$(cat .token)
 
 # Inicializando o bot
 ShellBot.init --token "$bot_token" --monitor
