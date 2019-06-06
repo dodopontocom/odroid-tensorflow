@@ -953,7 +953,7 @@ orange
 lemon
 fig
 pineapple
-banana
+banana:2,00
 jackfruit
 custard apple
 pomegranate

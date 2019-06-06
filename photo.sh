@@ -52,6 +52,7 @@ do
 			[[ $download_file -eq 1 ]] && {
 
 				dest_file=./
+				imageLab=./ImageNetLabels.txt
 				# Inicializa um array se houver mais de um ID salvo em 'file_id'.
 				# (É recomendado para fotos e vídeos, pois haverá o mesmo arquivo com diversas resoluções e ID's)
 				file_id=($file_id)
@@ -74,9 +75,10 @@ do
 											--parse_mode markdown
 
 					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')")
+					message=$(echo $message | cut -d'|' -f2)
 					if [[ $? -eq 0 ]]; then
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-											--text "$(echo -e $message | cut -d'|' -f2)" \
+											--text "Produto: $(echo -e $message | cut -d'|' -f2)" \
 											--parse_mode markdown
 					else
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -84,6 +86,16 @@ do
 											--parse_mode markdown
 					fi
 					
+					resultado=$(cat $imageLab | grep -i $message)
+					if [[ ! -z $resultado ]]; then
+						valor=$(cat $imageLab | grep $resultado | cut -d':' -f2)
+						if [[ ! -z $valor ]]; then
+							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+											--text "Valor: $(echo ${valor})" \
+											--parse_mode markdown
+						fi
+					fi
+
 		
 				}
 			}
