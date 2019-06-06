@@ -48,12 +48,12 @@ plt.axis('off')
 predicted_class_name = imagenet_labels[predicted_class]
 _ = print("Prediction: |" + predicted_class_name.title())
 
-return_print():
+def return_print():
     return print("Prediction: |" + predicted_class_name.title())
 
 print(return_print())
 
-elapsed_function():
+def elapsed_function():
     done = time.time()
     slapsed = done - start
     return slapsed
