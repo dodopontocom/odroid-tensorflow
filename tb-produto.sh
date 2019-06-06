@@ -29,7 +29,7 @@ do
 				getFile_id=$(echo ${file_id[@]} | cut -d'|' -f3)
 				file_final=$(ShellBot.getFile --file_id "$getFile_id" | cut -d'|' -f4)
 				file_path=$(ShellBot.downloadFile --file_path "${file_final}" --dir "$dest_file") && {
-					msg="`(bot version: $tb_version)`\n"
+					msg="\`(bot version: $tb_version)\`\n"
 					msg+="*Download do arquivo realizado com sucesso.*\n\n"
 
 					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
