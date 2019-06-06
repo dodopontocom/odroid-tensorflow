@@ -10,6 +10,9 @@ from tensorflow.keras import layers
 import numpy as np
 import PIL.Image as Image
 import sys
+import time
+
+start = time.time()
 
 URL = sys.argv[1]
 
@@ -44,3 +47,7 @@ plt.axis('off')
 
 predicted_class_name = imagenet_labels[predicted_class]
 _ = print("Prediction: |" + predicted_class_name.title())
+
+done = time.time()
+slapsed = done - start
+print(slapsed)
