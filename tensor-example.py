@@ -22,9 +22,9 @@ classifier = tf.keras.Sequential([
     hub.KerasLayer(classifier_url, input_shape=IMAGE_SHAPE+(3,))
 ])
 
-grace_hopper = tf.keras.utils.get_file('image.jpg',URL)
+#grace_hopper = tf.keras.utils.get_file(URL)
 #grace_hopper = tf.keras.utils.get_file('image.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg')
-grace_hopper = Image.open(grace_hopper).resize(IMAGE_SHAPE)
+grace_hopper = Image.open(URL).resize(IMAGE_SHAPE)
 grace_hopper
 
 grace_hopper = np.array(grace_hopper)/255.0
@@ -43,4 +43,4 @@ plt.imshow(grace_hopper)
 plt.axis('off')
 
 predicted_class_name = imagenet_labels[predicted_class]
-_ = print("Prediction: " + predicted_class_name.title())
+_ = print("Prediction: |" + predicted_class_name.title())
