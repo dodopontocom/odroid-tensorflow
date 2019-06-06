@@ -51,6 +51,8 @@ _ = print("Prediction: |" + predicted_class_name.title())
 return_print():
     return predicted_class_name.title()
 
+print(return_print())
+
 done = time.time()
 slapsed = done - start
 print(slapsed)
