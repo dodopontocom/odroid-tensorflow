@@ -69,12 +69,20 @@ do
 											--text "$(echo -e "$msg")" \
 											--parse_mode markdown
 					
-					ls $dest_file
+					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+											--text "Processando, aguarde uns instantes..." \
+											--parse_mode markdown
 
 					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')")
-					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+					if [[ $? -eq 0 ]]; then
+						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 											--text "$(echo -e $message | cut -d'|' -f2)" \
 											--parse_mode markdown
+					else
+						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+											--text "Erro ao processar, tente outra foto..." \
+											--parse_mode markdown
+					fi
 					
 		
 				}
