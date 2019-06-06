@@ -53,6 +53,9 @@ return_print():
 
 print(return_print())
 
-done = time.time()
-slapsed = done - start
-print(slapsed)
+elapsed_function():
+    done = time.time()
+    slapsed = done - start
+    return slapsed
+
+print(elapsed_function())
