@@ -10,8 +10,11 @@ from tensorflow.keras import layers
 import numpy as np
 import PIL.Image as Image
 import sys
+import time
 
-URL = sys.argv[1]
+start = time.time()
+
+image_url = sys.argv[1]
 
 tf.enable_eager_execution()
 
@@ -24,7 +27,7 @@ classifier = tf.keras.Sequential([
 
 #grace_hopper = tf.keras.utils.get_file(URL)
 #grace_hopper = tf.keras.utils.get_file('image.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/grace_hopper.jpg')
-grace_hopper = Image.open(URL).resize(IMAGE_SHAPE)
+grace_hopper = Image.open(image_url).resize(IMAGE_SHAPE)
 grace_hopper
 
 grace_hopper = np.array(grace_hopper)/255.0
@@ -43,4 +46,16 @@ plt.imshow(grace_hopper)
 plt.axis('off')
 
 predicted_class_name = imagenet_labels[predicted_class]
-_ = print("Prediction: |" + predicted_class_name.title())
+#_ = print("Prediction: |" + predicted_class_name.title())
+
+def return_print():
+    return print(predicted_class_name.title())
+
+return_print()
+
+def elapsed_function():
+    done = time.time()
+    slapsed = done - start
+    return slapsed
+
+print(elapsed_function())
