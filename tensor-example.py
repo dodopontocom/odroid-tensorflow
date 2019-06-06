@@ -49,7 +49,8 @@ predicted_class_name = imagenet_labels[predicted_class]
 #_ = print("Prediction: |" + predicted_class_name.title())
 
 def return_print():
-    return print(predicted_class_name.title())
+    _ = print("" + predicted_class_name.title())
+    return _
 
 print(return_print())
 
