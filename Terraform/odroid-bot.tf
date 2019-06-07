@@ -34,9 +34,9 @@ resource "google_compute_instance" "default" {
       "service sshd restart" 
     ]
     connection {
-      type          = "${var.virtual_machine_template.["connection_type"]}"
-      user          = "${var.virtual_machine_template.["connection_user"]}"
-      password      = "${var.virtual_machine_template.["connection_password"]}"
+      type          = "ssh"
+      user          = "root"
+      password      = ""
     }
   }
 
