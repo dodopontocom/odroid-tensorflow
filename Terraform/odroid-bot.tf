@@ -32,7 +32,7 @@ resource "google_compute_instance" "default" {
       "/tmp/script.sh",
     ]
   }
- network_interface {
+  network_interface {
     network = "default"
 
     access_config {
@@ -60,6 +60,5 @@ resource "google_compute_firewall" "http-server" {
 
 output "ip" {
   value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
-}
 }
 
