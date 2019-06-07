@@ -27,7 +27,7 @@ resource "google_compute_instance" "default" {
   connection {
         type = "ssh"
         user = "root"
-        private_key = "${file(~/.ssh/pv)}"
+        private_key = "${"file(~/.ssh/pv")}"
         timeout = 2m
   }
   
