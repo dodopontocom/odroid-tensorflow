@@ -25,10 +25,9 @@ resource "google_compute_instance" "default" {
   tags = ["http-server"]
   
   connection {
-        type = "ssh"
-        user = "root"
-        private_key = "${"file(~/.ssh/pv")}"
-        timeout = 2m
+    type = "ssh"
+    user = "root"
+    private_key = "${file("~/.ssh/pv")}"
   }
   
   provisioner "file" {
