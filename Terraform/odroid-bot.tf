@@ -27,7 +27,7 @@ resource "google_compute_instance" "default" {
       type    = "ssh"
       user    = "root"
       timeout = "120s"
-      host = "${self.public_ip}"
+      host = "${google_compute_shared_vpc_host_project.host.project}"
     }
 
     source      = "../_scripts/deploy-gcp.sh"
@@ -38,7 +38,7 @@ resource "google_compute_instance" "default" {
       type    = "ssh"
       user    = "root"
       timeout = "120s"
-      host = "${self.public_ip}"
+      host = "${google_compute_shared_vpc_host_project.host.project}"
     }
 
     inline = [
