@@ -1,0 +1,46 @@
+version: 2.1
+defaults: &defaults
+  environment:
+    PROJECT_TEST: /home/odroid-tensorflow
+    JS_SCRIPT_PATH: _scripts
+    DELIVERED_APP_PATH: place_holder
+    GITHUB_EMAIL: rodolfotiago@gmail.com
+    GITHUB_USER_NAME: rodolfotiago
+    DEV_KOBITON_USER: place_holder
+    DEV_KOBITON_API: place_holder
+    INCREMENT_VERSION_SCRIPT: place_holder
+only-releasable: &only-releasable
+  filters:
+    branches:
+      only:
+        - master
+        - develop
+        - patch
+non-releasable: &non-releasable
+  filters:
+    branches:
+      ignore:
+        - master
+        - develop
+        - patch
+
+jobs:
+  test:
+    <<: *defaults
+    docker:
+      - image: tensorflow/tensorflow
+    working_directory: $PROJECT_TEST
+    steps:
+      - checkout
+      - run:
+          name: "python test"
+          command: |
+            cd $PROJECT_TEST
+            python --version
+
+workflows:
+  version: 2.1
+  
+  flutter_workflow:
+    jobs:
+      - test
