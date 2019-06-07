@@ -23,7 +23,14 @@ resource "google_compute_instance" "default" {
 
   // Apply the firewall rule to allow external IPs to access this instance
   tags = ["http-server"]
-
+  
+  connection {
+        type = "ssh"
+        user = "root"
+        private_key = "${file(~/.ssh/pv)}"
+        timeout = 2m
+  }
+  
   provisioner "file" {
     source      = "../_scripts/deploy-gcp.sh"
     destination = "/tmp/script.sh"
