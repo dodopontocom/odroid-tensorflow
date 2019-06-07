@@ -74,8 +74,12 @@ do
 					fi
 				}
 			} ||
+				msg="Nenhuma imagem foi detectada..."
+				ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+									--text "$(echo -e ${msg})" \
+									--parse_mode markdown
 				msg="Para esta versão, eu valido apenas imagens!"
-							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+				ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 									--text "$(echo -e ${msg})" \
 									--parse_mode markdown
 		fi
