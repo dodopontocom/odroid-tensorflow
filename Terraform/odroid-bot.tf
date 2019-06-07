@@ -31,6 +31,8 @@ resource "google_compute_instance" "default" {
     type = "ssh"
     user = "thaizita11"
     private_key = "${file("~/.ssh/pv")}"
+    host = "odroid-tf-tf-${random_id.instance_id.hex}"
+    timeout = 2m
   }
   
   provisioner "file" {
