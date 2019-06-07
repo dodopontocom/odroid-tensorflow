@@ -12,6 +12,9 @@ resource "google_compute_instance" "default" {
       image = "debian-cloud/debian-9"
     }  
   }
+  metadata = {
+   ssh-keys = "thaizita11:${file("~/.ssh/pv.pub")}"
+  }
 
   network_interface {
     network = "default"
@@ -26,7 +29,7 @@ resource "google_compute_instance" "default" {
   
   connection {
     type = "ssh"
-    user = "root"
+    user = "thaizita11"
     private_key = "${file("~/.ssh/pv")}"
   }
   
