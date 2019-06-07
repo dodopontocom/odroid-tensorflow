@@ -41,7 +41,7 @@ jobs:
 workflows:
   version: 2.1
   
-  flutter_workflow:
+  tensorflow_workflow:
     jobs:
       - test:
         <<: *non-releasable
