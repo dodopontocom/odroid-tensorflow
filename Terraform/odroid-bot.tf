@@ -37,6 +37,7 @@ resource "google_compute_instance" "default" {
       type          = "ssh"
       user          = "root"
       password      = ""
+      host = "${google_compsadnetwork_interface.0.access_config.0.nat_ip}"
     }
   }
 
