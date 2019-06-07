@@ -24,35 +24,20 @@ resource "google_compute_instance" "default" {
   // Apply the firewall rule to allow external IPs to access this instance
   tags = ["http-server"]
 
-  provisioner "local-exec" {
-   command = <<EOH
-sudo apt-get update
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common \
-	jq
-
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt-key fingerprint 0EBFCD88
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-sudo usermod -aG docker $USER
-
-git clone https://github.com/dodopontocom/odroid-tensorflow.git
-PROJECT=~/odroid-tensorflow
-TB_TOKEN=823077067:AAEaevV1BdvOtWO7rxeXaORA3P6bu1RcQnQ
-echo $TB_TOKEN > $PROJECT/.token
-cd $PROJECT
-sudo docker build -t tensorflow . && ./tb-produto.sh
-EOH
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /root/.ssh/",
+      "chmod 700 /root/.ssh",
+      "mv /tmp/authorized_keys /root/.ssh/authorized_keys",
+      "chmod 600 /root/.ssh/authorized_keys",
+      "sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config", 
+      "service sshd restart" 
+    ]
+    connection {
+      type          = "${var.virtual_machine_template.["connection_type"]}"
+      user          = "${var.virtual_machine_template.["connection_user"]}"
+      password      = "${var.virtual_machine_template.["connection_password"]}"
+    }
   }
 
 }
