@@ -28,7 +28,7 @@ resource "google_compute_instance" "default" {
   
   
   provisioner "file" {
-    source      = "../_scripts/init.sh"
+    source      = "../_scripts/deploy-gcp.sh"
     destination = "/tmp/script.sh"
   }
   provisioner "remote-exec" {
