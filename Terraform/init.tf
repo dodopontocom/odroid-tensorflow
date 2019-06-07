@@ -1,4 +1,4 @@
-resource resource "google_compute_instance" "default" {
+resource resource "google_compute_instance" {
 
   provisioner "remote-exec" {
     inline = [
