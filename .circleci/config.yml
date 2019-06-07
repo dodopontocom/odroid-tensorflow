@@ -43,4 +43,5 @@ workflows:
   
   flutter_workflow:
     jobs:
-      - test
+      - test:
+        <<: *non-releasable
