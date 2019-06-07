@@ -6,15 +6,6 @@ resource "google_compute_instance" "default" {
   name         = "odroid-tf-tf-${random_id.instance_id.hex}"
   machine_type = "f1-micro"
   zone         = "us-central1-a"
-  
-  connection {
-    type        = "ssh"
-    agent       = false
-    user        = "${var.gce_ssh_user}"
-    port        = "${var.gce_ssh_port}"
-    timeout     = "5m"
-    private_key = "${file("${var.gce_ssh_private_key_file}")}"
-  }
 
   boot_disk {
     initialize_params {
