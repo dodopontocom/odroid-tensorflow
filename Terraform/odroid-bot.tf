@@ -15,6 +15,10 @@ resource "google_compute_instance" "default" {
   
   network_interface {
     network = "default"
+  
+  access_config {
+      // Ephemeral IP
+    }
 
   metadata_startup_script = "script"
 
