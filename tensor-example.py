@@ -12,11 +12,15 @@ import PIL.Image as Image
 import sys
 import time
 
+#test_loss, test_acc = model.evaluate(test_images, test_labels)
+#print('Test accuracy:', test_acc)
+
 start = time.time()
 
 image_url = sys.argv[1]
 
-tf.enable_eager_execution()
+#tf.enable_eager_execution()
+tf.compat.v1.enable_eager_execution()
 
 classifier_url ="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/2" #@param {type:"string"}
 
