@@ -6,6 +6,7 @@ resource "google_compute_instance" "default" {
   name         = "odroid-tf-tf-${random_id.instance_id.hex}"
   machine_type = "f1-micro"
   zone         = "us-central1-a"
+  tags         = ["externalssh"]
 
   boot_disk {
     initialize_params {
@@ -17,44 +18,51 @@ resource "google_compute_instance" "default" {
     network = "default"
 
     access_config {
-      // Include this section to give the VM an external ip address
+      # Ephemeral
     }
   }
 
   // Apply the firewall rule to allow external IPs to access this instance
   tags = ["http-server"]
 
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /root/.ssh/",
-      "chmod 700 /root/.ssh",
-      "mv /tmp/authorized_keys /root/.ssh/authorized_keys",
-      "chmod 600 /root/.ssh/authorized_keys",
-      "sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config", 
-      "service sshd restart" 
-    ]
+ provisioner "file" {
     connection {
-      type          = "ssh"
-      user          = "root"
-      password      = ""
-      host = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
+      type    = "ssh"
+      user    = "root"
+      timeout = "120s"
     }
+
+    source      = "../_scripts/deploy-gcp.sh"
+    destination = "/tmp/script.sh"
+  }
+  provisioner "remote-exec" {
+    connection {
+      type    = "ssh"
+      user    = "root"
+      timeout = "120s"
+    }
+
+    inline = [
+      "sudo chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
+    ]
   }
 
+  depends_on = ["google_compute_firewall.gh-9564-firewall-externalssh"]
 }
 
-resource "google_compute_firewall" "http-server" {
-  name    = "default-allow-http"
+resource "google_compute_firewall" "gh-9564-firewall-externalssh" {
+  name    = "gh-9564-firewall-externalssh"
   network = "default"
 
   allow {
     protocol = "tcp"
-    ports    = ["80"]
+    ports    = ["22"]
   }
 
   // Allow traffic from everywhere to instances with an http-server tag
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["http-server"]
+  target_tags   = ["externalss"]
 }
 
 output "ip" {
