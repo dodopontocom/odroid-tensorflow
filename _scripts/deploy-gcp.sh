@@ -25,4 +25,4 @@ PROJECT=~/odroid-tensorflow
 TB_TOKEN=823077067:AAEaevV1BdvOtWO7rxeXaORA3P6bu1RcQnQ
 echo $TB_TOKEN > $PROJECT/.token
 cd $PROJECT
-docker build -t tensorflow . && ./tb-produto.sh
+sudo docker build -t tensorflow . && ./tb-produto.sh
