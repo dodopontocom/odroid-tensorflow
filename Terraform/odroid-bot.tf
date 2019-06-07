@@ -12,9 +12,6 @@ resource "google_compute_instance" "default" {
       image = "debian-cloud/debian-9"
     }  
   }
-  metadata = {
-   ssh-keys = "thaizita11:${file("~/.ssh/pv.pub")}"
-  }
 
   network_interface {
     network = "default"
@@ -26,22 +23,36 @@ resource "google_compute_instance" "default" {
 
   // Apply the firewall rule to allow external IPs to access this instance
   tags = ["http-server"]
-  
-  provisioner "file" {
-    source      = "../_scripts/deploy-gcp.sh"
-    destination = "/tmp/script.sh"
-  }
-  provisioner "remote-exec" {
-   inline = [
-      "chmod +x /tmp/script.sh",
-      "/tmp/script.sh"
-    ]
-   connection {
-    type = "ssh"
-    user = "root"
-    password = ""
-    host = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
-   }
+
+  provisioner "local-exec" {
+   command = <<EOH
+sudo apt-get update
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common \
+	jq
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo usermod -aG docker $USER
+
+git clone https://github.com/dodopontocom/odroid-tensorflow.git
+PROJECT=~/odroid-tensorflow
+TB_TOKEN=823077067:AAEaevV1BdvOtWO7rxeXaORA3P6bu1RcQnQ
+echo $TB_TOKEN > $PROJECT/.token
+cd $PROJECT
+sudo docker build -t tensorflow . && ./tb-produto.sh
+EOH
   }
 
 }
