@@ -1,9 +1,13 @@
 resource resource "google_compute_instance" {
 
+  provisioner "file" {
+    source      = "./_scripts/init.sh"
+    destination = "/tmp/script.sh"
+  }
   provisioner "remote-exec" {
-    inline = [
-      "python --version",
-      "git --version",
+   inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
     ]
   }
   
