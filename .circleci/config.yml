@@ -1,7 +1,7 @@
 version: 2.1
 defaults: &defaults
   environment:
-    PROJECT_TEST: ~
+    PROJECT_TEST: /home
     JS_SCRIPT_PATH: _scripts
     DELIVERED_APP_PATH: place_holder
     GITHUB_EMAIL: rodolfotiago@gmail.com
