@@ -22,16 +22,6 @@ resource "google_compute_instance" "default" {
     }  
   }
 
-  provisioner "file" {
-    source      = "../_scripts/deploy-gcp.sh"
-    destination = "/tmp/script.sh"
-  }
-  provisioner "remote-exec" {
-   inline = [
-      "chmod +x /tmp/script.sh",
-      "/tmp/script.sh",
-    ]
-  }
   network_interface {
     network = "default"
 
@@ -42,6 +32,18 @@ resource "google_compute_instance" "default" {
 
   // Apply the firewall rule to allow external IPs to access this instance
   tags = ["http-server"]
+
+  provisioner "file" {
+    source      = "../_scripts/deploy-gcp.sh"
+    destination = "/tmp/script.sh"
+  }
+  provisioner "remote-exec" {
+   inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh",
+    ]
+  }
+
 }
 
 resource "google_compute_firewall" "http-server" {
