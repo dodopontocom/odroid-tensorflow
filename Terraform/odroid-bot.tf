@@ -22,9 +22,6 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  // Apply the firewall rule to allow external IPs to access this instance
-  tags = ["http-server"]
-
  provisioner "file" {
     connection {
       type    = "ssh"
