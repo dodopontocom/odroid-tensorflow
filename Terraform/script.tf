@@ -1,10 +1,12 @@
-provisioner "file" {
-  source      = "../_scripts/init.sh"
-  destination = "/tmp/script.sh"
-}
-provisioner "remote-exec" {
-  inline = [
-    "chmod +x /tmp/script.sh",
-    "/tmp/script.sh",
-  ]
+resource "google" "odroid-tensorflow" {
+    provisioner "file" {
+        source      = "../_scripts/init.sh"
+        destination = "/tmp/script.sh"
+    }
+    provisioner "remote-exec" {
+        inline = [
+            "chmod +x /tmp/script.sh",
+            "/tmp/script.sh",
+        ]
+    }
 }
