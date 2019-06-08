@@ -63,6 +63,6 @@ resource "kubernetes_secret" "odroid-tensorflow" {
     name = "service-account"
   }
   data = {
-    key.json = "${base64decode(google_service_account_key.odroid-tensorflow-243011.private_key)}"
+    key.json = "${base64decode(google_service_account_key.110688370480126180233.private_key)}"
   }
 }
