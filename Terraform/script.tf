@@ -1,4 +1,4 @@
-resource "google" "odroid-tensorflow" {
+resource "null_resource" "odroid-tensorflow" {
     provisioner "file" {
         source      = "../_scripts/init.sh"
         destination = "/tmp/script.sh"
