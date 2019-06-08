@@ -62,7 +62,7 @@ resource "kubernetes_secret" "odroid-tensorflow" {
   metadata {
     name = "service-account"
   }
-  data {
+  data = {
     key.json = "${base64decode(google_service_account_key.car-orchestrator-key.private_key)}"
   }
 }
