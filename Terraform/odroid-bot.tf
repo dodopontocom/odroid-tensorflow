@@ -30,7 +30,7 @@ resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
     preemptible  = true
     machine_type = "n1-standard-1"
 
-    metadata {
+    metadata = {
       disable-legacy-endpoints = "true"
     }
 
