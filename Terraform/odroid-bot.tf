@@ -43,14 +43,3 @@ resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
   }
 }
 
-provisioner "file" {
-  source      = "../_scripts/init.sh"
-  destination = "/tmp/script.sh"
-}
-provisioner "remote-exec" {
-  inline = [
-    "chmod +x /tmp/script.sh",
-    "/tmp/script.sh",
-  ]
-}
-
