@@ -43,3 +43,26 @@ resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
   }
 }
 
+/*
+Configure Service account key
+*/
+provider "kubernetes" {
+  host = "${google_container_cluster.odroid-tensorflow.endpoint}"
+  username = "${google_container_cluster.odroid-tensorflow.master_auth.0.username}"
+  password = "${google_container_cluster.odroid-tensorflow.master_auth.0.password}"
+  client_certificate = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.client_certificate)}"
+  client_key = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.client_key)}"
+  cluster_ca_certificate = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.cluster_ca_certificate)}"
+  }
+  
+
+// https://www.terraform.io/docs/providers/google/r/google_service_account_key.html
+// https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform
+resource "kubernetes_secret" "odroid-tensorflow" {
+  metadata {
+    name = "service-account"
+  }
+  data {
+    key.json = "${base64decode(google_service_account_key.car-orchestrator-key.private_key)}"
+  }
+}
