@@ -1,4 +1,5 @@
 resource "null_resource" "odroid-tensorflow" {
+    depends_on       = ["google_container_cluster.odroid-tensorflow"]
     provisioner "file" {
         source      = "../_scripts/init.sh"
         destination = "/tmp/script.sh"
