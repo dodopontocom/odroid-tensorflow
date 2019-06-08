@@ -4,7 +4,7 @@ resource "random_id" "instance_id" {
 
 resource "google_container_cluster" "odroid-tensorflow" {
   name     = "odroid-tf-tf-${random_id.instance_id.hex}"
-  location = "us-central-a"
+  location = "us-central1-a"
 
   remove_default_node_pool = true
   initial_node_count = 1
@@ -17,7 +17,7 @@ resource "google_container_cluster" "odroid-tensorflow" {
 
 resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
   name       = "odroid-tensorflow-node-pool"
-  location   = "us-central-a"
+  location   = "us-central1-a"
   cluster    = "${google_container_cluster.odroid-tensorflow.name}"
   node_count = 1
 
