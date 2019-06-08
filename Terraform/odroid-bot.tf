@@ -2,28 +2,53 @@ resource "random_id" "instance_id" {
   byte_length = 6
 }
 
-resource "google_compute_instance" "default" {
-  name         = "odroid-tf-tf-${random_id.instance_id.hex}"
-  machine_type = "f1-micro"
-  zone         = "us-central1-a"
+resource "google_container_cluster" "odroid-tensorflow" {
+  name     = "odroid-tf-tf-${random_id.instance_id.hex}"
+  location = "us-central-a"
 
-  boot_disk {
-    initialize_params {
-      image = "debian-cloud/debian-9"
-    }  
+  remove_default_node_pool = true
+  initial_node_count = 1
+
+  master_auth {
+    username = ""
+    password = ""
   }
-  
-  network_interface {
-    network = "default"
+}
+
+resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
+  name       = "odroid-tensorflow-node-pool"
+  location   = "us-central-a"
+  cluster    = "${google_container_cluster.odroid-tensorflow.name}"
+  node_count = 1
+
+  autoscaling {
+    min_node_count = 1
+    max_node_count = 3
   }
-  
-  
-  provisioner "file" {
-    source      = "../_scripts/init.sh"
-    destination = "/tmp/script.sh"
+
+  node_config {
+    preemptible  = true
+    machine_type = "n1-standard-1"
+
+    metadata {
+      disable-legacy-endpoints = "true"
+    }
+
+    // https://www.terraform.io/docs/providers/google/r/container_cluster.html#storage-ro
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
   }
-  provisioner "remote-exec" {
-   inline = [
+}
+
+provisioner "file" {
+  source      = "../_scripts/init.sh"
+  destination = "/tmp/script.sh"
+}
+provisioner "remote-exec" {
+  inline = [
       "chmod +x /tmp/script.sh",
       "/tmp/script.sh",
     ]
