@@ -46,8 +46,8 @@ do
 						--parse_mode markdown
 					
 					get_random="/tmp/$(random.helper).log"
-					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
+					#message=$(docker run --rm -i -v ${BASEDIR}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
+					message=$(docker run --rm -i -v ${BASEDIR}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
 					produto=$(tail -2 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
 						assertividade="\`(assertividade: $(tail -1 $get_random))\`\n"
