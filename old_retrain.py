@@ -1060,6 +1060,3 @@ if __name__ == '__main__':
   )
   FLAGS, unparsed = parser.parse_known_args()
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
-×
-Drag and Drop
-The image will be downloaded by Fatkun
