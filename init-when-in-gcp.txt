@@ -4,7 +4,7 @@ cd odroid-tensorflow
 echo "<TELEGRAM_TOKEN>" > .token
 docker build -t tensorflow .
 gsutil cp -r gs://odroid-tensorflow/supermarket ./
-docker run --rm -v ${PWD}/home/test -w /home/test/ -u $USER -it tensorflow \
+docker run --rm -v ${PWD}:/home/test -w /home/test/ -u $USER -it tensorflow \
 python old_retrain.py \
 --bottleneck_dir=./bottlenecks \
 --how_many_training_steps 500 \
