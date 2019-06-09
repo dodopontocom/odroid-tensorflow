@@ -43,7 +43,7 @@ do
 						--parse_mode markdown
 
 					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
+					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
 					produto=$(tail -2 /tmp/usar_urandom.log | head -1)
 					if [[ $? -eq 0 ]]; then
 						elapsed="\`(tempo de processamento: $(tail -1 /tmp/usar_urandom.log) segundos)\`\n"
