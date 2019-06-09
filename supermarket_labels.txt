@@ -1,4 +1,4 @@
 coca cola:1,99
 bolacha trakinas:3,00
 maionese hellmanns:5,00
-samalitos:2,50
+salamitos:2,50
