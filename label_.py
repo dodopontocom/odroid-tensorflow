@@ -7,9 +7,9 @@ image_path = sys.argv[1]
 image_data = tf.gfile.FastGFile(image_path, 'rb').read()
 
 label_lines = [line.rstrip() for line
-        in tf.gfile.GFile("./retrained_labels.txt")]
+        in tf.gfile.GFile("/home/tensor-photos/retrained_labels.txt")]
 
-with tf.gfile.FastGFile("./retrained_graph.pb", 'rb') as f:
+with tf.gfile.FastGFile("/home/tensor-photos/retrained_graph.pb", 'rb') as f:
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')
@@ -24,9 +24,11 @@ with tf.Session() as sess:
         for node_id in top_k:
                 human_string = label_lines[node_id]
                 score = predictions[0][node_id]
-                if score >= 0.9:
+                print(human_string, score)
+                if score >= 0.8:
                         print(human_string)
                         print(score)
                         exit()
                 else:
+                        print("---")
                         print("Padrão baixo. Tente enviar outra imagem...")
