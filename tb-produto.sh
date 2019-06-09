@@ -2,6 +2,7 @@
 #
 BASEDIR=$(dirname $0)
 source ${BASEDIR}/ShellBot.sh
+source ${BASEDIR}/random.sh
 bot_token=$(cat .token)
 bot_version=$(tail -1 ${BASEDIR}/VERSION)
 
@@ -41,14 +42,15 @@ do
 					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 						--text "Processando, aguarde uns instantes..." \
 						--parse_mode markdown
-
-					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
-					produto=$(tail -2 /tmp/usar_urandom.log | head -1)
+					
+					get_random="/tmp/$(random.helper).log"
+					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > $get_random)
+					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > $get_random)
+					produto=$(tail -2 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
-						elapsed="\`(assertividade: $(tail -1 /tmp/usar_urandom.log))\`\n"
+						assertividade="\`(assertividade: $(tail -1 $get_random))\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "$(echo -e $elapsed)" \
+								--text "$(echo -e $assertividade)" \
 								--parse_mode markdown
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "Produto: $(echo -e $produto)" \
