@@ -57,6 +57,9 @@ do
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "Erro ao processar, tente outra imagem..." \
 								--parse_mode markdown
+						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+								--text "Atente-se à luminosidade e a nitidez do rótulo do produto!" \
+								--parse_mode markdown
 					fi
 
 					if [[ "$produto" != "---" ]]; then
