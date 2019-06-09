@@ -30,7 +30,7 @@ do
 				file_final=$(ShellBot.getFile --file_id "$getFile_id" | cut -d'|' -f4)
 				file_path=$(ShellBot.downloadFile --file_path "${file_final}" --dir "$dest_file") && {
 					
-					msg="\`(version: $bot_version)\`\n"
+					msg="\`(versão beta: $bot_version)\`\n"
 					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 						--text "$(echo -e "$msg")" \
 						--parse_mode markdown
@@ -46,7 +46,7 @@ do
 					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > /tmp/usar_urandom.log)
 					produto=$(tail -2 /tmp/usar_urandom.log | head -1)
 					if [[ $? -eq 0 ]]; then
-						elapsed="\`(tempo de processamento: $(tail -1 /tmp/usar_urandom.log) segundos)\`\n"
+						elapsed="\`(assertividade: $(tail -1 /tmp/usar_urandom.log))\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "$(echo -e $elapsed)" \
 								--parse_mode markdown
