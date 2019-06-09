@@ -72,6 +72,11 @@ do
 									--text "$(echo -e ${msg})" \
 									--parse_mode markdown						
 						fi
+					else
+						msg="Produto não cadastrado em nosso banco de dados."
+							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+									--text "$(echo -e ${msg})" \
+									--parse_mode markdown
 					fi
 				}
 			}
