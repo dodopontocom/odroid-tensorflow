@@ -24,7 +24,7 @@ do
 			[[ ${message_photo_file_id[$id]} ]] && file_id=${message_photo_file_id[$id]} && download_file=1
 			[[ $download_file -eq 1 ]] && {
 				dest_file=${BASEDIR}/
-				imageLab=${BASEDIR}/ImageNetLabels.txt
+				imageLab=${BASEDIR}/supermarket_labels.txt
 				file_id=($file_id)
 				getFile_id=$(echo ${file_id[@]} | cut -d'|' -f3)
 				file_final=$(ShellBot.getFile --file_id "$getFile_id" | cut -d'|' -f4)
@@ -74,15 +74,7 @@ do
 						fi
 					fi
 				}
-			} ||
-				msg="Nenhuma imagem foi detectada..."
-				ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-									--text "$(echo -e ${msg})" \
-									--parse_mode markdown
-				msg="Para esta versão, eu valido apenas imagens!"
-				ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-									--text "$(echo -e ${msg})" \
-									--parse_mode markdown
+			}
 		fi
 	) &
 	done
