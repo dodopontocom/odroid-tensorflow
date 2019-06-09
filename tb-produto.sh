@@ -30,6 +30,8 @@ do
 				getFile_id=$(echo ${file_id[@]} | cut -d'|' -f3)
 				file_final=$(ShellBot.getFile --file_id "$getFile_id" | cut -d'|' -f4)
 				file_path=$(ShellBot.downloadFile --file_path "${file_final}" --dir "$dest_file") && {
+
+					file_path=$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')
 					
 					msg="\`(versão beta: $bot_version)\`\n"
 					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -44,8 +46,8 @@ do
 						--parse_mode markdown
 					
 					get_random="/tmp/$(random.helper).log"
-					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > $get_random)
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')" > $get_random)
+					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
+					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
 					produto=$(tail -2 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
 						assertividade="\`(assertividade: $(tail -1 $get_random))\`\n"
@@ -86,6 +88,7 @@ do
 						fi
 					fi
 				}
+				rm -f $file_path
 			}
 		fi
 	) &
