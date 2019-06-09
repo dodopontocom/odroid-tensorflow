@@ -66,12 +66,12 @@ do
 							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 									--text "Valor: $(echo ${valor})" \
 									--parse_mode markdown
+						else
+							msg="Valor não registrado para o produto \`$produto\`"
+							ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+									--text "$(echo -e ${msg})" \
+									--parse_mode markdown						
 						fi
-					else
-						msg="Valor não registrado para o produto \`$produto\`"
-						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "$(echo -e ${msg})" \
-								--parse_mode markdown						
 					fi
 				}
 			}
