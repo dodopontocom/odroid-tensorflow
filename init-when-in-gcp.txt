@@ -1,0 +1,5 @@
+git clone https://github.com/dodopontocom/odroid-tensorflow.git
+cd odroid-tensorflow
+echo "<TELEGRAM_TOKEN>" > .token
+docker build -t tensorflow .
+gsutil cp -r gs://odroid-tensorflow/supermarket ./
