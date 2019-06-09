@@ -1,5 +1,14 @@
 git clone https://github.com/dodopontocom/odroid-tensorflow.git
+git checkout cluster-gcp
 cd odroid-tensorflow
 echo "<TELEGRAM_TOKEN>" > .token
 docker build -t tensorflow .
 gsutil cp -r gs://odroid-tensorflow/supermarket ./
+docker run --rm -v ${PWD}/home/test -w /home/test/ -u $USER -it tensorflow \
+python old_retrain.py \
+--bottleneck_dir=./bottlenecks \
+--how_many_training_steps 500 \
+--model_dir=./inception \
+--output_graph=./retrained_graph.pb \
+--output_labels=./retrained_labels.txt \
+--image_dir=./supermarket
