@@ -48,9 +48,9 @@ do
 					get_random="/tmp/$(random.helper).log"
 					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
 					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
-					produto=$(tail -2 $get_random | head -1)
+					produto=$(tail -3 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
-						assertividade="\`(assertividade: $(tail -1 $get_random))\`\n"
+						assertividade="\`(assertividade: $(tail -2 $get_random | head -1))\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "$(echo -e $assertividade)" \
 								--parse_mode markdown
@@ -87,6 +87,10 @@ do
 										--parse_mode markdown
 						fi
 					fi
+					elapsed="\`(tempo de processando: $(tail -1 $get_random) segundos)\`\n"
+						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+								--text "$(echo -e $elapsed)" \
+								--parse_mode markdown
 				}
 				rm -f $file_path
 			}
