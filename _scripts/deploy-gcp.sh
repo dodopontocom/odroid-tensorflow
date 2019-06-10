@@ -22,7 +22,7 @@ sudo usermod -aG docker $USER
 
 git clone https://github.com/dodopontocom/odroid-tensorflow.git
 PROJECT=~/odroid-tensorflow
-TB_TOKEN=823077067:AAEaevV1BdvOtWO7rxeXaORA3P6bu1RcQnQ
+TB_TOKEN=<TELEGRAM_TOKEN>
 echo $TB_TOKEN > $PROJECT/.token
 cd $PROJECT
 sudo docker build -t tensorflow . && ./tb-produto.sh
