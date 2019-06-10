@@ -87,7 +87,7 @@ do
 										--parse_mode markdown
 						fi
 					fi
-					elapsed="\`(tempo de processando: $(tail -1 $get_random) segundos)\`\n"
+					elapsed="\`(tempo de processamento: $(tail -1 $get_random) segundos)\`\n"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "$(echo -e $elapsed)" \
 								--parse_mode markdown
