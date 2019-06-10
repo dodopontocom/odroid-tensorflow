@@ -34,9 +34,8 @@ do
 					file_path=$(echo $file_path | cut -d'|' -f2 | sed 's#\.\/##')
 					
 					msg="\`(versão beta: $bot_version)\`\n"
-					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-						--text "$(echo -e "$msg")" \
-						--parse_mode markdown
+					ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+									--text "$(echo -e $msg)"
 					msg="*Download da imagem realizado com sucesso.*\n\n"
 					ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 						--text "$(echo -e "$msg")" \
@@ -51,9 +50,8 @@ do
 					produto=$(tail -2 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
 						assertividade="\`(assertividade: $(tail -1 $get_random))\`\n"
-						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "$(echo -e $assertividade)" \
-								--parse_mode markdown
+						ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+									--text "$(echo -e $assertividade)"
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 								--text "Produto: $(echo -e $produto)" \
 								--parse_mode markdown
