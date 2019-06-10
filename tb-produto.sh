@@ -17,6 +17,8 @@ do
 	do
 	# Inicio thread
 	(
+
+		ShellBot.watchHandle --callback_data ${callback_query_data[$id]}
 		# Desativa download
 		download_file=0
 
