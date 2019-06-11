@@ -11,7 +11,7 @@ ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
 ENV PIP_14 "https://files.pythonhosted.org/packages/88/bd/77bac5a06d73c7ee8287d608607a118fd53eb3479e413687be205d0a75f0/tensorflow-1.14.0rc0-cp27-cp27mu-manylinux1_x86_64.whl"
 
 RUN apt-get update && \
-    apt-get install -y wget apt-utils
+    apt-get install -y wget curl apt-utils
 
 RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | \
     tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
