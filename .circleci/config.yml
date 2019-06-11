@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 defaults: &defaults
   environment:
     PROJECT_TEST: /home
@@ -30,19 +30,15 @@ non-releasable: &non-releasable
         - develop
         - patch
         - docker
-
 jobs:
   build:
     <<: *defaults
-    docker:
-      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Build Docker image
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
-    
+        name: Docker Build
+        command: echo ok
+
 workflows:
   version: 2.1
   
