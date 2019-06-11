@@ -13,10 +13,6 @@ ENV PIP_14 "https://files.pythonhosted.org/packages/88/bd/77bac5a06d73c7ee8287d6
 RUN apt-get update && \
     apt-get install -y wget curl apt-utils
 
-RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-RUN apt-get update && apt-get install google-cloud-sdk
-
 RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | \
     tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
