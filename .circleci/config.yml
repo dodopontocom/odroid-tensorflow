@@ -43,7 +43,6 @@ jobs:
           command: |
             cd $PROJECT_TEST
             python --version
-jobs:
   docker:
     <<: *defaults
     docker:
@@ -64,5 +63,5 @@ workflows:
     jobs:
       - test:
         <<: *non-releasable
-      - test:
+      - docker:
         <<: *docker-releasable
