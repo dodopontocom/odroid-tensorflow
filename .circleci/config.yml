@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Test
           command: |
-            docker run --rm -it -v ${PWD}:/home/test -w /home/test $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python --version
+            docker run --rm -it -v ${PWD}:/home/tensor-photos/ -w /home/tensor-photos $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python /home/tensor-photos/label.py /home/tensor-photos/maionese.jpg
   test-image:
     <<: *defaults
     docker:
@@ -70,8 +70,4 @@ workflows:
     jobs:
       - build-image:
           <<: *docker-releasable
-      - test-image:
-          <<: *docker-releasable
-          requires:
-            - build-image
         
