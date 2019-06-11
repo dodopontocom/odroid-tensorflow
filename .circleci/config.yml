@@ -29,6 +29,7 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
+        - docker
 
 jobs:
   test:
