@@ -1,14 +1,9 @@
 version: 2.1
 defaults: &defaults
   environment:
-    PROJECT_TEST: /home
-    JS_SCRIPT_PATH: _scripts
-    DELIVERED_APP_PATH: place_holder
-    GITHUB_EMAIL: rodolfotiago@gmail.com
-    GITHUB_USER_NAME: rodolfotiago
-    DEV_KOBITON_USER: place_holder
-    DEV_KOBITON_API: place_holder
-    INCREMENT_VERSION_SCRIPT: place_holder
+    IMAGE_NAME: tensorflow-retrained-supermarket
+    IMAGE_TAG: $CIRCLE_BUILD_NUM
+    DOCKERFILE: Dockerfile-retrain
 
 docker-releasable: &docker-releasable
   filters:
@@ -49,7 +44,7 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t tensorflow-test -f Dockerfile-retrain .
+            docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
 
 workflows:
   version: 2.1  
