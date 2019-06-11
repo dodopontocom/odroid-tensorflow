@@ -45,10 +45,14 @@ jobs:
       - run:
           name: Prepare
           command: |
-            echo $GOOGLE_APPLICATION_CREDENTIALS
+            echo $GOOGLE_APPLICATION_CREDENTIALS > /tmp/account.json
+      - run:
+          name: Docker Build
+          command: |
+            docker build -t tensorflow-test .
+
 workflows:
-  version: 2.1
-  
+  version: 2.1  
   tensorflow_workflow:
     jobs:
       - build:
