@@ -36,7 +36,8 @@ jobs:
       - run:
           name: Docker Login
           command: |
-            echo $DOCKER_USER_PASSWORD | base64 --decode | docker login -u $DOCKER_USER_NAME --password-stdin
+            #echo $DOCKER_USER_PASSWORD | base64 --decode | docker login -u $DOCKER_USER_NAME --password-stdin
+            docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
       - run:
           name: Docker Build
           command: |
