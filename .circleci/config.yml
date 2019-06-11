@@ -46,9 +46,6 @@ jobs:
             python --version
   docker:
     <<: *defaults
-    docker:
-      - image: tensorflow/tensorflow
-    working_directory: $PROJECT_TEST
     steps:
       - checkout
       - run:

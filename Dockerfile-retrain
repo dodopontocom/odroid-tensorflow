@@ -30,7 +30,6 @@ WORKDIR /home/script
 
 ADD old_retrain.py /home/script/
 
-ADD account.json /tmp/account.json
 RUN gcloud auth activate-service-account --key-file=/tmp/account.json
 RUN gsutil cp -r gs://odroid-tensorflow/supermarket /home/script/
 
