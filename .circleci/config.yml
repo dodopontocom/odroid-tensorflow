@@ -33,11 +33,14 @@ non-releasable: &non-releasable
 jobs:
   build:
     <<: *defaults
+    docker:
+      - image: circleci/buildpack-deps:xenial
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-        name: Docker Build
-        command: echo ok
+          name: Docker Build
+          command: echo ok
 
 workflows:
   version: 2.1
