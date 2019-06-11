@@ -9,6 +9,12 @@ defaults: &defaults
     DEV_KOBITON_USER: place_holder
     DEV_KOBITON_API: place_holder
     INCREMENT_VERSION_SCRIPT: place_holder
+
+docker-releasable: &docker-releasable
+  filters:
+    branches:
+      only:
+        - docker
 only-releasable: &only-releasable
   filters:
     branches:
@@ -37,6 +43,19 @@ jobs:
           command: |
             cd $PROJECT_TEST
             python --version
+jobs:
+  docker:
+    <<: *defaults
+    docker:
+      - image: tensorflow/tensorflow
+    working_directory: $PROJECT_TEST
+    steps:
+      - checkout
+      - run:
+          name: "python test"
+          command: |
+            cd $PROJECT_TEST
+            python --version
 
 workflows:
   version: 2.1
@@ -45,3 +64,5 @@ workflows:
     jobs:
       - test:
         <<: *non-releasable
+      - test:
+        <<: *docker-releasable
