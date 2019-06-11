@@ -56,7 +56,7 @@ jobs:
           command: |
             ls
 workflows:
-  version: 2.1
+  version: 2.0
   tensorflow_workflow:
     jobs:
       - build-image:
