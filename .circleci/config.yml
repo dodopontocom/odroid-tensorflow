@@ -2,7 +2,7 @@ version: 2.1
 defaults: &defaults
   environment:
     IMAGE_NAME: tensorflow-retrained-supermarket
-    IMAGE_TAG: "$CIRCLE_BUILD_NUM"
+    IMAGE_TAG: $CIRCLE_BUILD_NUM
     DOCKERFILE: Dockerfile-retrain
 
 docker-releasable: &docker-releasable
@@ -44,7 +44,8 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+          echo "$CIRCLE_BUILD_NUM"
+            docker build -t $IMAGE_NAME -f $DOCKERFILE .
 
 workflows:
   version: 2.1  
