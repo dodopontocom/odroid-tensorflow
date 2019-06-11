@@ -44,7 +44,8 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            echo "$CIRCLE_BUILD_NUM"
+            echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
+            ls ./
             docker build -t $IMAGE_NAME -f $DOCKERFILE .
 
 workflows:
