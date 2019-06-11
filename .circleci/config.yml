@@ -39,11 +39,15 @@ jobs:
             #echo $DOCKER_USER_PASSWORD | base64 --decode | docker login -u $DOCKER_USER_NAME --password-stdin
             docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
       - run:
-          name: Docker Build & Push
+          name: Docker Build
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
             ls ./
-            docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+            docker build -t $IMAGE_NAME -f $DOCKERFILE .
+      - run:
+          name: Docker Push
+          command: |
+            export
             docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
   test:
