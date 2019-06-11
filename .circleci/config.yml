@@ -38,16 +38,17 @@ jobs:
           command: |
             docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
       - run:
-          name: Prepare
-          command: |
-            echo $GOOGLE_APPLICATION_CREDENTIALS > /tmp/account.json
-      - run:
           name: Docker Build
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
             ls ./
             docker build -t $IMAGE_NAME -f $DOCKERFILE .
-
+      - run:
+          name: Docker Push
+          command: |
+            export
+            docker tag "$IMAGE_NAME:$IMAGE_TAG"
+            docker push "$IMAGE_NAME:$IMAGE_TAG"
 workflows:
   version: 2.1  
   tensorflow_workflow:
