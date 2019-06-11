@@ -56,11 +56,13 @@ jobs:
           command: |
             ls
 workflows:
+  version: 2.1
   tensorflow_workflow:
     jobs:
       - build-image:
-        <<: *docker-releasable
+          <<: *docker-releasable
       - test-image:
-        requires:
-          - build-image
+          <<: *docker-releasable
+          requires:
+            - build-image
         
