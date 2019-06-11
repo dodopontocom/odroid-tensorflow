@@ -40,7 +40,8 @@ jobs:
       - setup_remote_docker
       - run:
           name: Docker Build
-          command: echo ok
+          command: |
+            docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
 
 workflows:
   version: 2.1
