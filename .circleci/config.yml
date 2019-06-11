@@ -46,14 +46,12 @@ jobs:
             python --version
   docker:
     <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: "python test"
-          command: |
-            cd $PROJECT_TEST
-            python --version
-            java -version
+    build:
+      machine: true
+      steps:
+        - checkout
+        - run: |
+            docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSOWORD
 
 workflows:
   version: 2.1
