@@ -5,6 +5,9 @@ CHAT_ID=11524381
 MESSAGE="Script Terraform Executado com sucesso"
 URL="https://api.telegram.org/bot$TOKEN/sendMessage"
 
+init_msg="Iniciando VM via TERRAFORM $PWD"
+curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$init_msg"
+
 apt-get update
 apt-get install -y \
     curl \
@@ -14,7 +17,7 @@ apt-get install -y \
 
 git clone -b cluster-gcp-v2 https://github.com/dodopontocom/odroid-tensorflow.git
 cd odroid-tensorflow
-echo $TOKEN > $PROJECT/.token
+echo $TOKEN > .token
 docker build -t tensorflow .
 
 gsutil cp -r gs://odroid-tensorflow/supermarket ./
