@@ -32,31 +32,21 @@ non-releasable: &non-releasable
         - docker
 
 jobs:
-  test:
-    <<: *defaults
-    docker:
-      - image: tensorflow/tensorflow
-    working_directory: $PROJECT_TEST
-    steps:
-      - checkout
-      - run:
-          name: "python test"
-          command: |
-            cd $PROJECT_TEST
-            python --version
   build:
-    machine: true
+    <<: *docker-releasable
+    docker:
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
-      - run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASS
-
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    
 workflows:
   version: 2.1
   
   tensorflow_workflow:
     jobs:
-      - test:
-        <<: *non-releasable
       - build:
         <<: *docker-releasable
