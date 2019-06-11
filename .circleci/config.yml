@@ -42,12 +42,7 @@ jobs:
           name: Docker Build
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
-            ls ./
             docker build -t $IMAGE_NAME -f $DOCKERFILE .
-      - run:
-          name: Docker Push
-          command: |
-            export
             docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
   test:
