@@ -2,67 +2,47 @@ resource "random_id" "instance_id" {
   byte_length = 6
 }
 
-resource "google_container_cluster" "odroid-tensorflow" {
-  name     = "odroid-tf-tf-${random_id.instance_id.hex}"
-  location = "us-central1-a"
+resource "google_compute_instance" "default" {
+  name         = "vm-tf-${random_id.instance_id.hex}"
+  machine_type = "f1-micro"
+  zone         = "us-central1-a"
 
-  remove_default_node_pool = true
-  initial_node_count = 1
-
-  master_auth {
-    username = ""
-    password = ""
-  }
-}
-
-resource "google_container_node_pool" "odroid-tensorflow_preemptible_nodes" {
-  name       = "odroid-tensorflow-node-pool"
-  location   = "us-central1-a"
-  cluster    = "${google_container_cluster.odroid-tensorflow.name}"
-  node_count = 1
-
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 3
-  }
-
-  node_config {
-    preemptible  = true
-    machine_type = "n1-standard-1"
-
-    metadata = {
-      disable-legacy-endpoints = "true"
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
     }
-
-    // https://www.terraform.io/docs/providers/google/r/container_cluster.html#storage-ro
-    oauth_scopes = [
-      "https://www.googleapis.com/auth/devstorage.read_only",
-      "https://www.googleapis.com/auth/logging.write",
-      "https://www.googleapis.com/auth/monitoring",
-    ]
   }
+
+  metadata_startup_script = " \
+  /bin/bash ../_scripts/deploy-gcp.sh  
+  "
+
+  network_interface {
+    network = "default"
+
+    access_config {
+      // Include this section to give the VM an external ip address
+    }
+  }
+
+  // Apply the firewall rule to allow external IPs to access this instance
+  tags = ["http-server"]
 }
 
-/*
-Configure Service account key
-*/
-provider "kubernetes" {
-  host = "${google_container_cluster.odroid-tensorflow.endpoint}"
-  username = "${google_container_cluster.odroid-tensorflow.master_auth.0.username}"
-  password = "${google_container_cluster.odroid-tensorflow.master_auth.0.password}"
-  client_certificate = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.client_certificate)}"
-  client_key = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.client_key)}"
-  cluster_ca_certificate = "${base64decode(google_container_cluster.odroid-tensorflow.master_auth.0.cluster_ca_certificate)}"
-  }
-  
+resource "google_compute_firewall" "http-server" {
+  name    = "default-allow-http"
+  network = "default"
 
-// https://www.terraform.io/docs/providers/google/r/google_service_account_key.html
-// https://cloud.google.com/kubernetes-engine/docs/tutorials/authenticating-to-cloud-platform
-resource "kubernetes_secret" "odroid-tensorflow" {
-  metadata {
-    name = "service-account"
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
   }
-  data = {
-    account.json = "${base64decode(google_service_account_key.odroid-tensorflow-key.private_key)}"
-  }
+
+  // Allow traffic from everywhere to instances with an http-server tag
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["http-server"]
+}
+
+output "ip" {
+  value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
 }
