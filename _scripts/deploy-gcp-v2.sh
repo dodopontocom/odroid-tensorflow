@@ -20,6 +20,7 @@ cd odroid-tensorflow
 echo $TOKEN > .token
 docker build -t tensorflow .
 
+#gcloud auth activate-service-account --key-file=/tmp/account.json
 gsutil cp -r gs://odroid-tensorflow/supermarket ./
 
 docker run --rm -v ${PWD}:/home/test -w /home/test/ -u $USER -it tensorflow \
