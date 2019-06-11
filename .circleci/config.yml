@@ -46,9 +46,8 @@ jobs:
             python --version
   docker-build:
     <<: *defaults
-    build:
+    steps:
       machine: true
-      steps:
         - checkout
         - run: |
             docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSOWORD
