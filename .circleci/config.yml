@@ -45,6 +45,15 @@ jobs:
             docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
             docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+      - run:
+          name: Docker Push
+          command: |
+            docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+            docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+      - run:
+          name: Test
+          command: |
+            docker run --rm -it -v ${PWD}:/home/test -w /home/test $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python --version
   test-image:
     <<: *defaults
     docker:
