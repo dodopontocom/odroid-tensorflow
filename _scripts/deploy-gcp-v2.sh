@@ -33,4 +33,4 @@ python old_retrain.py \
 
 curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$MESSAGE"
 
-bash ./tb-produto.sh 2>&1 /tmp/tb-produto-bot.log
+bash ./tb-produto.sh > /tmp/tb-produto-bot-.log 2>&1
