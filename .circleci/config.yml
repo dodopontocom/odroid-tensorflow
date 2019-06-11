@@ -26,7 +26,7 @@ non-releasable: &non-releasable
         - patch
         - docker
 jobs:
-  build:
+  build-image:
     <<: *defaults
     docker:
       - image: circleci/buildpack-deps:xenial
@@ -45,7 +45,7 @@ jobs:
             docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
             docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
-  test:
+  test-image:
     <<: *defaults
     docker:
       - image: $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
@@ -56,12 +56,12 @@ jobs:
           command: |
             ls
 workflows:
-  version: 2.1  
+  version: 2.1
   tensorflow_workflow:
     jobs:
-      - build:
+      - build-image:
         <<: *docker-releasable
-      - test:
+      - test-image:
         requires:
-          - build
+          - build-image
         
