@@ -1,2 +1,6 @@
 .token
 ShellBot.sh
+Terraform/.terraform/
+Terraform/terraform*
+Terraform/.terraform*
+account.json
