@@ -42,8 +42,8 @@ jobs:
           name: Docker Build
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
-            docker build -t $IMAGE_NAME -f $DOCKERFILE .
-            docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:$IMAGE_TAG
+            docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+            docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
   test:
     <<: *defaults
@@ -63,4 +63,6 @@ workflows:
         <<: *docker-releasable
       - test:
         <<: *docker-releasable
+        requires:
+          - build
         
