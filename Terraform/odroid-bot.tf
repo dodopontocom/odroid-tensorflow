@@ -13,7 +13,7 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  metadata_startup_script = EOH <<
+  metadata_startup_script = <<EOH
   /bin/bash ../_scripts/deploy-gcp.sh  
   EOH
 
