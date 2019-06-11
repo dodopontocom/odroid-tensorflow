@@ -33,7 +33,7 @@ non-releasable: &non-releasable
 
 jobs:
   build:
-    <<: *docker-releasable
+    <<: *defaults
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
