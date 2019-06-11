@@ -13,9 +13,9 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  metadata_startup_script = " \
+  metadata_startup_script = EOH <<
   /bin/bash ../_scripts/deploy-gcp.sh  
-  "
+  EOH
 
   network_interface {
     network = "default"
