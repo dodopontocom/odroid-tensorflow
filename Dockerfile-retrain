@@ -1,6 +1,8 @@
 FROM tensorflow/tensorflow
 
-ENV CLOUD_SDK_REPO cloud-sdk-stretch
+ARG GOOGLE_APPLICATION_CREDENTIALS
+
+ENV CLOUD_SDK_REPO cloud-sdk-xenial
 ENV GOOGLE_APPLICATION_CREDENTIALS $GOOGLE_APPLICATION_CREDENTIALS
 ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
                  --how_many_training_steps 500 \
@@ -16,8 +18,9 @@ RUN apt-get update && \
 RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | \
     tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    apt-get update && apt-get install -y google-cloud-sdk
-    
+    apt-get update
+RUN apt-get install -y google-cloud-sdk
+
 RUN wget $PIP_14
 RUN python -m pip install tensorflow-1.14.0rc0-cp27-cp27mu-manylinux1_x86_64.whl
 
@@ -27,8 +30,7 @@ RUN pip install tensorflow-hub && \
 
 ADD old_retrain.py /home/script/
 
-RUN echo "$GOOGLE_APPLICATION_CREDENTIALS" > /tmp/account.json
-RUN gcloud auth activate-service-account --key-file=/tmp/account.json
+RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 RUN gsutil cp -r gs://odroid-tensorflow/supermarket /home/script/
 
 RUN /usr/bin/python /home/script/old_retrain.py $RETRAIN_ARGS
