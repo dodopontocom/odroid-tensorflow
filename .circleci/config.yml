@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Docker Build
           command: |
-          echo "$CIRCLE_BUILD_NUM"
+            echo "$CIRCLE_BUILD_NUM"
             docker build -t $IMAGE_NAME -f $DOCKERFILE .
 
 workflows:
