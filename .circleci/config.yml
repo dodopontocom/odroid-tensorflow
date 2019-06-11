@@ -56,6 +56,7 @@ jobs:
           command: |
             cd $PROJECT_TEST
             python --version
+            java -version
 
 workflows:
   version: 2.1
