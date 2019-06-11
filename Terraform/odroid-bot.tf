@@ -12,8 +12,9 @@ resource "google_compute_instance" "default" {
       image = "debian-cloud/debian-9"
     }
   }
-
+  //metadata_startup_script = "${file("./startup.ign")}"
   metadata_startup_script = <<EOH
+#!/bin/bash
 sudo apt-get update
 sudo apt-get install -y \
     apt-transport-https \
