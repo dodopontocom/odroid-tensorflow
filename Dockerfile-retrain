@@ -1,7 +1,5 @@
 FROM tensorflow/tensorflow
 
-ARG GOOGLE_APPLICATION_CREDENTIALS
-
 ENV CLOUD_SDK_REPO cloud-sdk-xenial
 ENV GOOGLE_APPLICATION_CREDENTIALS $GOOGLE_APPLICATION_CREDENTIALS
 ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
@@ -28,9 +26,12 @@ RUN pip install tensorflow-hub && \
     pip install matplotlib && \
     pip install Pillow
 
+WORKDIR /home/script
+
 ADD old_retrain.py /home/script/
 
-RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+ADD account.json /tmp/account.json
+RUN gcloud auth activate-service-account --key-file=/tmp/account.json
 RUN gsutil cp -r gs://odroid-tensorflow/supermarket /home/script/
 
-RUN /usr/bin/python /home/script/old_retrain.py $RETRAIN_ARGS
+RUN /usr/bin/python old_retrain.py $RETRAIN_ARGS
