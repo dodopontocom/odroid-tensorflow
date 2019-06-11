@@ -1,6 +1,5 @@
 FROM tensorflow/tensorflow
 
-ENV CLOUD_SDK_REPO cloud-sdk-$(lsb_release -c -s)
 ENV GOOGLE_APPLICATION_CREDENTIALS $GOOGLE_APPLICATION_CREDENTIALS
 ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
                  --how_many_training_steps 500 \
@@ -13,6 +12,7 @@ ENV PIP_14 "https://files.pythonhosted.org/packages/88/bd/77bac5a06d73c7ee8287d6
 RUN apt-get update && \
     apt-get install -y wget curl apt-utils
 
+RUN curl -sSL https://sdk.cloud.google.com | bash
 RUN echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | \
     tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
