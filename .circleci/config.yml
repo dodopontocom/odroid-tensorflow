@@ -49,7 +49,7 @@ jobs:
       - run:
           name: Docker Build
           command: |
-            docker build -t tensorflow-test .
+            docker build -t tensorflow-test -f Dockerfile-retrain .
 
 workflows:
   version: 2.1  
