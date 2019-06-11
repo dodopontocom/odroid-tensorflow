@@ -68,5 +68,4 @@ workflows:
         <<: *docker-releasable
       - test:
         <<: *docker-releasable
-        requires:
-          - build
+        
