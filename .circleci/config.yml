@@ -9,7 +9,7 @@ docker-releasable: &docker-releasable
   filters:
     branches:
       only:
-        - docker
+        - docker-hub-circleci
 only-releasable: &only-releasable
   filters:
     branches:
@@ -24,7 +24,7 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
-        - docker
+        - docker-hub-circleci
 jobs:
   build-image:
     <<: *defaults
@@ -36,7 +36,6 @@ jobs:
       - run:
           name: Docker Login
           command: |
-            #echo $DOCKER_USER_PASSWORD | base64 --decode | docker login -u $DOCKER_USER_NAME --password-stdin
             docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
       - run:
           name: Docker Build
@@ -54,16 +53,7 @@ jobs:
           name: Test
           command: |
             docker run --rm -i -w /home/script $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python /home/script/label.py /home/script/maionese.jpg
-  test-image:
-    <<: *defaults
-    docker:
-      - image: $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
-    steps:
-      - checkout
-      - run:
-          name: Perform one time test
-          command: |
-            ls
+            
 workflows:
   version: 2.1
   tensorflow_workflow:
