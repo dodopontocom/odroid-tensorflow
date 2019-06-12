@@ -34,6 +34,9 @@ non-releasable: &non-releasable
         - docker
         - terraform
 
+working_directory: &working_directory
+  ~/example
+
 repo_cache_key: &repo_cache_key
   v1-repo-{{ .Branch }}-{{ .Revision }}
 
@@ -45,7 +48,7 @@ save_repo: &save_repo
   save_cache:
     key: *repo_cache_key
     paths:
-      - ./
+      - *working_directory
 
 jobs:
   develop-pipeline:
@@ -100,9 +103,12 @@ jobs:
             cd $TERRAFORM_FOLDER
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform init
-            terraform plan -out=./terraform.plan
+            terraform plan -out=../terraform.plan
             rm -vfr ~/account.json
-      - *save_repo
+      - persist_to_workspace:
+          root: *working_directory
+          paths:
+            - terraform.plan
   terraform-apply:
     <<: *defaults
     docker:
@@ -110,12 +116,14 @@ jobs:
     steps:
       - *restore_repo
       #- checkout
+      - attach_workspace:
+          at: *working_directory
       - run:
           name: (GCP) Deploy Terraform
           command: |
             cd $TERRAFORM_FOLDER
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
-            terraform apply --auto-approve ./terraform.plan
+            terraform apply --auto-approve ../terraform.plan
             rm -vfr ~/account.json
 
 workflows:
