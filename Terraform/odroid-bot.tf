@@ -4,7 +4,7 @@ resource "random_id" "instance_id" {
 
 resource "google_compute_instance" "default" {
   name         = "vm-tf-${random_id.instance_id.hex}"
-  machine_type = "f1-micro"
+  machine_type = "g1-small"
   zone         = "us-central1-a"
   
   boot_disk {
@@ -27,6 +27,7 @@ resource "google_compute_instance" "default" {
   tags = ["http-server"]
 }
 
+/*
 resource "google_compute_firewall" "http-server" {
   name    = "default-allow-http"
   network = "default"
@@ -40,7 +41,7 @@ resource "google_compute_firewall" "http-server" {
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server"]
 }
-
+*/
 output "ip" {
   value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
 }
