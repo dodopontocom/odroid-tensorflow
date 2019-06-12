@@ -90,6 +90,7 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
+      - checkout
       - *restore_repo
       - attach_workspace:
           at: ./
