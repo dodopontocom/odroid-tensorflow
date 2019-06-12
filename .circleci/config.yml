@@ -33,6 +33,20 @@ non-releasable: &non-releasable
         - patch
         - docker
         - terraform
+
+repo_cache_key: &repo_cache_key
+  v1-repo-{{ .Branch }}-{{ .Revision }}
+
+restore_repo: &restore_repo
+  restore_cache:
+    key: *repo_cache_key
+
+save_repo: &save_repo
+  save_cache:
+    key: *repo_cache_key
+    paths:
+      - working_directory
+
 jobs:
   develop-pipeline:
     <<: *defaults
@@ -76,7 +90,9 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
-      - checkout
+      #- checkout
+      - attach_workspace:
+          at: working_directory
       - run:
           name: (GCP) Deploy Terraform
           command: |
@@ -97,3 +113,4 @@ workflows:
           <<: *docker-releasable
       - terraform-pipeline:
           <<: *only-releasable
+          <<: *restore_repo
