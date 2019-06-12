@@ -4,6 +4,7 @@ defaults: &defaults
     IMAGE_NAME: tensorflow-retrained-supermarket
     IMAGE_TAG: latest
     DOCKERFILE: Dockerfile-retrain
+    SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
 docker-releasable: &docker-releasable
   filters:
@@ -53,7 +54,7 @@ jobs:
       - run:
           name: Test
           command: |
-            docker run --rm -i -w /home/script $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python /home/script/label.py /home/script/maionese.jpg
+            docker run --rm -i -w $SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $SCRIPTS_DIRECTORY/maionese.jpg
             
 workflows:
   version: 2.1
