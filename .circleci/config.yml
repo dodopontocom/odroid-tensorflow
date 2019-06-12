@@ -5,7 +5,7 @@ defaults: &defaults
     IMAGE_TAG: latest
     DOCKERFILE: Dockerfile
     DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
-    TERRAFORM_FOLDER: ./Terraform
+    TERRAFORM_FOLDER: /home/circle/project/Terraform
 
 terraform-releasable: &terraform-releasable
   filters:
