@@ -4,14 +4,16 @@
 import tensorflow as tf, sys, time
 
 start = time.time()
+retrained_labels = "/home/tensorflowEx/scripts/retrained_labels.txt"
+retrained_graph = "/home/tensorflowEx/scripts/retrained_graph.pb"
 
 image_path = sys.argv[1]
 image_data = tf.gfile.FastGFile(image_path, 'rb').read()
 
 label_lines = [line.rstrip() for line
-        in tf.io.gfile.GFile("/home/script/retrained_labels.txt")]
+        in tf.io.gfile.GFile(retrained_labels)]
 
-with tf.gfile.FastGFile("/home/script/retrained_graph.pb", 'rb') as f:
+with tf.gfile.FastGFile(retrained_graph, 'rb') as f:
         graph_def = tf.compat.v1.GraphDef()
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')

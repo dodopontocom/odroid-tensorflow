@@ -1,12 +1,17 @@
 FROM tensorflow/tensorflow
 
+ENV WORKING_DIRECTORY /home/tensorflowEx
+ENV SCRIPTS_DIRECTORY /home/tensorflowEx/scripts
+ENV GOOGLE_BUCKET_FOLDER supermarket
+
 ENV CLOUD_SDK_REPO cloud-sdk-xenial
-ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
+ENV RETRAIN_ARGS --bottleneck_dir=$SCRIPTS_DIRECTORY/bottlenecks \
                  --how_many_training_steps 500 \
-                 --model_dir=./inception \
-                 --output_graph=./retrained_graph.pb \
-                 --output_labels=./retrained_labels.txt \
-                 --image_dir=./supermarket
+                 --model_dir=$SCRIPTS_DIRECTORY/inception \
+                 --output_graph=$SCRIPTS_DIRECTORY/retrained_graph.pb \
+                 --output_labels=$SCRIPTS_DIRECTORY/retrained_labels.txt \
+                 --image_dir=$SCRIPTS_DIRECTORY/$GOOGLE_BUCKET_FOLDER
+
 ENV PIP_14 "https://files.pythonhosted.org/packages/88/bd/77bac5a06d73c7ee8287d608607a118fd53eb3479e413687be205d0a75f0/tensorflow-1.14.0rc0-cp27-cp27mu-manylinux1_x86_64.whl"
 
 RUN apt-get update && \
@@ -25,14 +30,14 @@ RUN pip install tensorflow-hub && \
     pip install matplotlib && \
     pip install Pillow
 
-WORKDIR /home/script
+WORKDIR $WORKING_DIRECTORY
 
 ADD account.json /tmp/account.json
 RUN gcloud auth activate-service-account --key-file=/tmp/account.json
-RUN gsutil cp -r gs://odroid-tensorflow/supermarket /home/script/
+RUN gsutil cp -r gs://odroid-tensorflow/$GOOGLE_BUCKET_FOLDER $SCRIPTS_DIRECTORY
 RUN rm -vfr /tmp/account.json
-RUN rm -vfr account.json
+RUN rm -vfr ./account.json
 
-ADD . /home/script/
+ADD . $WORKING_DIRECTORY
 
-RUN /usr/bin/python old_retrain.py $RETRAIN_ARGS
+RUN /usr/bin/python $SCRIPTS_DIRECTORY/old_retrain.py $RETRAIN_ARGS
