@@ -45,7 +45,7 @@ save_repo: &save_repo
   save_cache:
     key: *repo_cache_key
     paths:
-      - working_directory
+      - "${TERRAFORM_FOLDER}"
 
 jobs:
   develop-pipeline:
@@ -92,7 +92,7 @@ jobs:
     steps:
       #- checkout
       - attach_workspace:
-          at: working_directory
+          at: "${TERRAFORM_FOLDER}"
       - run:
           name: (GCP) Deploy Terraform
           command: |
