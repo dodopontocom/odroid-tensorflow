@@ -6,6 +6,11 @@ defaults: &defaults
     DOCKERFILE: Dockerfile
     SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
+docker-releasable: &terraform-releasable
+  filters:
+    branches:
+      only:
+        - terraform
 docker-releasable: &docker-releasable
   filters:
     branches:
@@ -27,6 +32,17 @@ non-releasable: &non-releasable
         - patch
         - docker
 jobs:
+  develop-pipeline:
+    <<: *defaults
+    docker:
+      - image: circleci/buildpack-deps:xenial
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Unit Test
+          command: |
+            docker run --rm -i -w $SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $SCRIPTS_DIRECTORY/maionese.jpg
   docker-pipeline:
     <<: *defaults
     docker:
@@ -53,11 +69,23 @@ jobs:
           name: Docker Run Test
           command: |
             docker run --rm -i -w $SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $SCRIPTS_DIRECTORY/maionese.jpg
-            
+  terraform-pipeline:
+    <<: *defaults
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: (GCP) Deploy Terraform
+          command: |
+            terraform
 workflows:
   version: 2.1
   tensorflow_workflow:
     jobs:
+      - develop-pipeline:
+          <<: *only-releasable
       - docker-pipeline:
           <<: *docker-releasable
-        
+      - terraform-pipeline:
+          <<: *terraform-releasable
