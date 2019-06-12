@@ -6,7 +6,7 @@ source ${BASEDIR}/random.sh
 bot_token=$1
 bot_version=$(tail -1 ${BASEDIR}/../VERSION)
 DOCKER_IMAGE=rodolfoneto/tensorflow-retrained-experience
-DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
+DOCKER_SCRIPTS_DIRECTORY=/home/tensorflowEx/scripts
 
 ShellBot.init --token "$bot_token" --monitor
 ShellBot.username
