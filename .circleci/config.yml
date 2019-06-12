@@ -6,7 +6,7 @@ defaults: &defaults
     DOCKERFILE: Dockerfile
     SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
-docker-releasable: &terraform-releasable
+terraform-releasable: &terraform-releasable
   filters:
     branches:
       only:
