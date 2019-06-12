@@ -34,19 +34,6 @@ non-releasable: &non-releasable
         - docker
         - terraform
 
-repo_cache_key: &repo_cache_key
-  v1-repo-{{ .Branch }}-{{ .Revision }}
-
-restore_repo: &restore_repo
-  restore_cache:
-    key: *repo_cache_key
-
-save_repo: &save_repo
-  save_cache:
-    key: *repo_cache_key
-    paths:
-      - "${TERRAFORM_FOLDER}"
-
 jobs:
   develop-pipeline:
     <<: *defaults
@@ -90,16 +77,14 @@ jobs:
     docker:
       - image: hashicorp/terraform:light
     steps:
-      #- checkout
-      - attach_workspace:
-          at: "${TERRAFORM_FOLDER}"
+      - checkout
       - run:
           name: (GCP) Deploy Terraform
           command: |
             cd $TERRAFORM_FOLDER
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform init
-            terraform plan
+            terraform plan -out=~/terraform.plan
             terraform apply --auto-approve
             ls -alrt
             rm -vfr ~/account.json
@@ -113,4 +98,3 @@ workflows:
           <<: *docker-releasable
       - terraform-pipeline:
           <<: *only-releasable
-          <<: *restore_repo
