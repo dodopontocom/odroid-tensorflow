@@ -102,13 +102,17 @@ jobs:
             terraform plan -out=./terraform.plan
             rm -vfr ~/account.json
       - *save_repo
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - terraform.plan
   terraform-apply:
     <<: *defaults
     docker:
       - image: hashicorp/terraform:light
     steps:
       - *restore_repo
-      - checkout
+      #- checkout
       - run:
           name: (GCP) Deploy Terraform
           command: |
@@ -116,10 +120,7 @@ jobs:
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform apply --auto-approve
             rm -vfr ~/account.json
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - terraform.plan
+
 workflows:
   version: 2.1
   tensorflow_workflow:
