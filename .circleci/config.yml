@@ -5,7 +5,7 @@ defaults: &defaults
     IMAGE_TAG: latest
     DOCKERFILE: Dockerfile
     DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
-    TERRAFORM_FOLDER: /home/circle/project/Terraform
+    TERRAFORM_FOLDER: ./Terraform
 
 terraform-releasable: &terraform-releasable
   filters:
@@ -75,13 +75,14 @@ jobs:
     <<: *defaults
     docker:
       - image: hashicorp/terraform:light
-    working_directory: $TERRAFORM_FOLDER
     steps:
       - checkout
       - run:
           name: (GCP) Deploy Terraform
           command: |
-            ls -lrt
+            cd $TERRAFORM_FOLDER
+            terraform init
+            ls -alrt
 workflows:
   version: 2.1
   tensorflow_workflow:
