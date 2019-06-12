@@ -132,3 +132,5 @@ workflows:
           <<: *non-releasable
       - terraform-apply:
           <<: *non-releasable
+          requires:
+            - terraform-init
