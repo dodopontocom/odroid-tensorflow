@@ -9,7 +9,7 @@ docker-releasable: &docker-releasable
   filters:
     branches:
       only:
-        - docker-hub-circleci
+        - dockerhub-ci
 only-releasable: &only-releasable
   filters:
     branches:
@@ -24,7 +24,7 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
-        - docker-hub-circleci
+        - dockerhub-ci
 jobs:
   build-image:
     <<: *defaults
@@ -44,6 +44,7 @@ jobs:
             docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
             docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+            rm -vfr ./account.json
       - run:
           name: Docker Push
           command: |
