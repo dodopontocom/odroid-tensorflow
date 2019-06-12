@@ -5,6 +5,8 @@ source ${BASEDIR}/ShellBot.sh
 source ${BASEDIR}/random.sh
 bot_token=$1
 bot_version=$(tail -1 ${BASEDIR}/../VERSION)
+DOCKER_IMAGE=rodolfoneto/tensorflow-retrained-experience
+DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
 ShellBot.init --token "$bot_token" --monitor
 ShellBot.username
@@ -46,8 +48,7 @@ do
 						--parse_mode markdown
 					
 					get_random="/tmp/$(random.helper).log"
-					#message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
-					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python /home/tensor-photos/label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
+					message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos tensorflow python label.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
 					produto=$(tail -3 $get_random | head -1)
 					if [[ $? -eq 0 ]] && [[ "$produto" != "---" ]]; then
 						assertividade="\`(assertividade: $(tail -2 $get_random | head -1))\`\n"
