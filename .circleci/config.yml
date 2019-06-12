@@ -10,7 +10,7 @@ docker-releasable: &docker-releasable
   filters:
     branches:
       only:
-        - dockerhub-ci
+        - docker
 only-releasable: &only-releasable
   filters:
     branches:
@@ -25,9 +25,9 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
-        - dockerhub-ci
+        - docker
 jobs:
-  build-image:
+  run-docker-pipeline:
     <<: *defaults
     docker:
       - image: circleci/buildpack-deps:xenial
@@ -43,8 +43,6 @@ jobs:
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
             docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
-            docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
-            docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             rm -vfr ./account.json
       - run:
           name: Docker Push
@@ -52,7 +50,7 @@ jobs:
             docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
             docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
       - run:
-          name: Test
+          name: Docker Run Test
           command: |
             docker run --rm -i -w $SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $SCRIPTS_DIRECTORY/maionese.jpg
             
@@ -60,6 +58,6 @@ workflows:
   version: 2.1
   tensorflow_workflow:
     jobs:
-      - build-image:
-          <<: *docker-releasable
+      - run-docker-pipeline:
+          <<: *only-releasable
         
