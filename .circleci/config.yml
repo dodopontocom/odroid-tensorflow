@@ -49,7 +49,26 @@ save_repo: &save_repo
     key: *repo_cache_key
     paths:
       - *working_directory
-
+      
+terraform_init: &terraform_init
+  run:
+    name: terraform init
+    command: |
+      cd $TERRAFORM_FOLDER
+      terraform init
+      
+apply_job: &apply_job
+  <<: *defaults
+  steps:
+    - *restore_repo
+    - *terraform_init
+    - attach_workspace:
+        at: *working_directory
+    - run:
+        name: terraform apply
+        command: |
+          cd $TERRAFORM_FOLDER
+          terraform apply --auto-approve ../terraform.plan      
 jobs:
   develop-pipeline:
     <<: *defaults
@@ -88,44 +107,24 @@ jobs:
           name: Docker Run Test
           command: |
             docker run --rm -i -w $DOCKER_SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $DOCKER_SCRIPTS_DIRECTORY/maionese.jpg
-  terraform-init:
+  
+  plan:
     <<: *defaults
-    docker:
-      - image: hashicorp/terraform:light
     steps:
-      - checkout
       - *restore_repo
-      - attach_workspace:
-          at: ./
+      - *terraform_init
       - run:
-          name: Init Terraform
+          name: terraform plan
           command: |
             cd $TERRAFORM_FOLDER
-            echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
-            terraform init
             terraform plan -out=../terraform.plan
-            rm -vfr ~/account.json
       - persist_to_workspace:
           root: *working_directory
           paths:
-            - terraform.plan
-  terraform-apply:
-    <<: *defaults
-    docker:
-      - image: hashicorp/terraform:light
-    steps:
-      - *restore_repo
-      #- checkout
-      - attach_workspace:
-          at: *working_directory
-      - run:
-          name: (GCP) Deploy Terraform
-          command: |
-            cd $TERRAFORM_FOLDER
-            echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
-            terraform apply --auto-approve ../terraform.plan
-            rm -vfr ~/account.json
-
+            - ../terraform.plan
+  apply:
+    <<: *apply_job
+    
 workflows:
   version: 2.1
   tensorflow_workflow:
@@ -134,9 +133,9 @@ workflows:
           <<: *only-releasable
       - docker-pipeline:
           <<: *docker-releasable
-      - terraform-init:
+      - plan:
           <<: *non-releasable
-      - terraform-apply:
+      - apply:
           <<: *non-releasable
           requires:
-            - terraform-init
+            - plan
