@@ -12,6 +12,5 @@ apt-get update
 apt-get install -y docker.io jq curl git
 
 git clone -b develop https://github.com/dodopontocom/odroid-tensorflow.git
-cd odroid-tensorflow
 curl -s -X POST $URL -d chat_id=$CHAT_ID -d text="$MESSAGE"
-bash ./tb-produto.sh $TOKEN > /tmp/tb-produto-bot.log 2>&1
+bash ./odroid-tensorflow/scripts/tb-produto.sh $TOKEN > /tmp/tb-produto-bot.log 2>&1
