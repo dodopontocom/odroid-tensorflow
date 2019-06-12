@@ -27,7 +27,7 @@ non-releasable: &non-releasable
         - patch
         - docker
 jobs:
-  run-docker-pipeline:
+  docker-pipeline:
     <<: *defaults
     docker:
       - image: circleci/buildpack-deps:xenial
@@ -58,6 +58,6 @@ workflows:
   version: 2.1
   tensorflow_workflow:
     jobs:
-      - run-docker-pipeline:
-          <<: *only-releasable
+      - docker-pipeline:
+          <<: *docker-releasable
         
