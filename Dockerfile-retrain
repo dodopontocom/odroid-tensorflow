@@ -34,7 +34,7 @@ WORKDIR $WORKING_DIRECTORY
 
 ADD account.json /tmp/account.json
 RUN gcloud auth activate-service-account --key-file=/tmp/account.json
-RUN gsutil cp -r gs://odroid-tensorflow/${GOOGLE_BUCKET_FOLDER} $SCRIPTS_DIRECTORY
+RUN gsutil cp -r gs://odroid-tensorflow/"${GOOGLE_BUCKET_FOLDER}" $SCRIPTS_DIRECTORY
 RUN rm -vfr /tmp/account.json
 RUN rm -vfr ./account.json
 
