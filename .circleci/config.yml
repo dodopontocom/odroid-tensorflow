@@ -9,7 +9,7 @@ docker-releasable: &docker-releasable
   filters:
     branches:
       only:
-        - dockerhub-ci
+        - dockerhub-ci-2
 only-releasable: &only-releasable
   filters:
     branches:
@@ -24,7 +24,7 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
-        - dockerhub-ci
+        - dockerhub-ci-2
 jobs:
   build-image:
     <<: *defaults
