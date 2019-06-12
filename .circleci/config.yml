@@ -84,6 +84,7 @@ jobs:
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform init
             terraform plan
+            terraform apply --auto-approve
             ls -alrt
             rm -vfr ~/account.json
 workflows:
