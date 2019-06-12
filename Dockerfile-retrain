@@ -2,7 +2,7 @@ FROM tensorflow/tensorflow
 
 ENV WORKING_DIRECTORY /home/tensorflowEx
 ENV SCRIPTS_DIRECTORY /home/tensorflowEx/scripts
-ENV GOOGLE_BUCKET_FOLDER supermarket
+ARG GOOGLE_BUCKET_FOLDER="supermarket"
 
 ENV CLOUD_SDK_REPO cloud-sdk-xenial
 ENV RETRAIN_ARGS --bottleneck_dir=$SCRIPTS_DIRECTORY/bottlenecks \
@@ -34,7 +34,7 @@ WORKDIR $WORKING_DIRECTORY
 
 ADD account.json /tmp/account.json
 RUN gcloud auth activate-service-account --key-file=/tmp/account.json
-RUN gsutil cp -r gs://odroid-tensorflow/"${GOOGLE_BUCKET_FOLDER}" $SCRIPTS_DIRECTORY
+RUN gsutil cp -r gs://odroid-tensorflow/$GOOGLE_BUCKET_FOLDER $SCRIPTS_DIRECTORY
 RUN rm -vfr /tmp/account.json
 RUN rm -vfr ./account.json
 
