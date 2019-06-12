@@ -1,7 +1,7 @@
 version: 2.1
 defaults: &defaults
   environment:
-    IMAGE_NAME: tensorflow-retrained-supermarket
+    IMAGE_NAME: tensorflow-retrained-experience
     IMAGE_TAG: latest
     DOCKERFILE: Dockerfile-retrain
     SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
