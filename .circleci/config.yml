@@ -81,8 +81,11 @@ jobs:
           name: (GCP) Deploy Terraform
           command: |
             cd $TERRAFORM_FOLDER
+            echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform init
+            terraform plan
             ls -alrt
+            rm -vfr ~/account.json
 workflows:
   version: 2.1
   tensorflow_workflow:
