@@ -84,7 +84,7 @@ jobs:
             cd $TERRAFORM_FOLDER
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform init
-            terraform plan -out=~/terraform.plan
+            terraform plan
             terraform apply --auto-approve
             ls -alrt
             rm -vfr ~/account.json
