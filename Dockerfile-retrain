@@ -28,10 +28,11 @@ RUN pip install tensorflow-hub && \
 
 WORKDIR /home/script
 
-ADD old_retrain.py /home/script/
 ADD account.json /tmp/account.json
-
 RUN gcloud auth activate-service-account --key-file=/tmp/account.json
 RUN gsutil cp -r gs://odroid-tensorflow/supermarket /home/script/
+RUN rm /tmp/account.json
+
+ADD . /home/script/
 
 RUN /usr/bin/python old_retrain.py $RETRAIN_ARGS

@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Test
           command: |
-            docker run --rm -it -v ${PWD}:/home/tensor-photos/ -w /home/tensor-photos $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python /home/tensor-photos/label.py /home/tensor-photos/maionese.jpg
+            docker run --rm -i -w /home/script $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python /home/script/label.py /home/script/maionese.jpg
   test-image:
     <<: *defaults
     docker:
