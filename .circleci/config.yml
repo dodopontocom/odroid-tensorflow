@@ -1,14 +1,16 @@
 version: 2.1
 defaults: &defaults
   environment:
-    PROJECT_TEST: /home
-    JS_SCRIPT_PATH: _scripts
-    DELIVERED_APP_PATH: place_holder
-    GITHUB_EMAIL: rodolfotiago@gmail.com
-    GITHUB_USER_NAME: rodolfotiago
-    DEV_KOBITON_USER: place_holder
-    DEV_KOBITON_API: place_holder
-    INCREMENT_VERSION_SCRIPT: place_holder
+    IMAGE_NAME: tensorflow-retrained-experience
+    IMAGE_TAG: latest
+    DOCKERFILE: Dockerfile
+    SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
+
+docker-releasable: &docker-releasable
+  filters:
+    branches:
+      only:
+        - dockerhub-ci
 only-releasable: &only-releasable
   filters:
     branches:
@@ -23,25 +25,41 @@ non-releasable: &non-releasable
         - master
         - develop
         - patch
-
+        - dockerhub-ci
 jobs:
-  test:
+  build-image:
     <<: *defaults
     docker:
-      - image: tensorflow/tensorflow
-    working_directory: $PROJECT_TEST
+      - image: circleci/buildpack-deps:xenial
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: "python test"
+          name: Docker Login
           command: |
-            cd $PROJECT_TEST
-            python --version
-
+            docker login -u $DOCKER_USER_NAME -p $DOCKER_USER_PASSWORD
+      - run:
+          name: Docker Build
+          command: |
+            echo $GOOGLE_APPLICATION_CREDENTIALS > ./account.json
+            docker build -t $IMAGE_NAME:$IMAGE_TAG -f $DOCKERFILE .
+            docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+            docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+            rm -vfr ./account.json
+      - run:
+          name: Docker Push
+          command: |
+            docker tag $IMAGE_NAME:$IMAGE_TAG $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+            docker push $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG
+      - run:
+          name: Test
+          command: |
+            docker run --rm -i -w $SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $SCRIPTS_DIRECTORY/maionese.jpg
+            
 workflows:
   version: 2.1
-  
   tensorflow_workflow:
     jobs:
-      - test:
-        <<: *non-releasable
+      - build-image:
+          <<: *docker-releasable
+        

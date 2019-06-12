@@ -1,0 +1,6 @@
+.git
+.gitignore
+Terraform/
+.circleci/
+README.md
+VERSION
