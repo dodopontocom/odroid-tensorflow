@@ -3,8 +3,8 @@
 BASEDIR=$(dirname $0)
 source ${BASEDIR}/ShellBot.sh
 source ${BASEDIR}/random.sh
-bot_token=$(cat ${BASEDIR}/.token)
-bot_version=$(tail -1 ${BASEDIR}/VERSION)
+bot_token=$1
+bot_version=$(tail -1 ${BASEDIR}/../VERSION)
 
 ShellBot.init --token "$bot_token" --monitor
 ShellBot.username
