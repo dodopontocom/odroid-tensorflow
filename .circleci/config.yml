@@ -4,7 +4,7 @@ defaults: &defaults
     IMAGE_NAME: tensorflow-retrained-experience
     IMAGE_TAG: latest
     DOCKERFILE: Dockerfile
-    DOCKER_DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
+    DOCKER_SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
 terraform-releasable: &terraform-releasable
   filters:
@@ -79,7 +79,7 @@ jobs:
       - run:
           name: (GCP) Deploy Terraform
           command: |
-            terraform
+            ls -lrt
 workflows:
   version: 2.1
   tensorflow_workflow:
