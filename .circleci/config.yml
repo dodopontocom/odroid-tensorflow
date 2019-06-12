@@ -102,10 +102,6 @@ jobs:
             terraform plan -out=./terraform.plan
             rm -vfr ~/account.json
       - *save_repo
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - terraform.plan
   terraform-apply:
     <<: *defaults
     docker:
