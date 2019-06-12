@@ -1,7 +1,6 @@
 FROM tensorflow/tensorflow
 
 ENV CLOUD_SDK_REPO cloud-sdk-xenial
-ENV GOOGLE_APPLICATION_CREDENTIALS $GOOGLE_APPLICATION_CREDENTIALS
 ENV RETRAIN_ARGS --bottleneck_dir=./bottlenecks \
                  --how_many_training_steps 500 \
                  --model_dir=./inception \
