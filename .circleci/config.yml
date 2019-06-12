@@ -3,7 +3,7 @@ defaults: &defaults
   environment:
     IMAGE_NAME: tensorflow-retrained-experience
     IMAGE_TAG: latest
-    DOCKERFILE: Dockerfile-retrain
+    DOCKERFILE: Dockerfile
     SCRIPTS_DIRECTORY: /home/tensorflowEx/scripts
 
 docker-releasable: &docker-releasable
