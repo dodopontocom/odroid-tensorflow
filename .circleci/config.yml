@@ -87,7 +87,6 @@ jobs:
             docker run --rm -i -w $DOCKER_SCRIPTS_DIRECTORY $DOCKER_USER_NAME/$IMAGE_NAME:$IMAGE_TAG python label.py $DOCKER_SCRIPTS_DIRECTORY/maionese.jpg
   terraform-init:
     <<: *defaults
-    <<: *save_repo
     docker:
       - image: hashicorp/terraform:light
     steps:
@@ -102,12 +101,13 @@ jobs:
             terraform init
             terraform plan -out=./terraform.plan
             rm -vfr ~/account.json
+      - *save_repo
   terraform-apply:
     <<: *defaults
-    <<: *restore_repo
     docker:
       - image: hashicorp/terraform:light
     steps:
+      - *restore_repo
       - checkout
       - run:
           name: (GCP) Deploy Terraform
@@ -116,6 +116,10 @@ jobs:
             echo $GOOGLE_APPLICATION_CREDENTIALS > ~/account.json
             terraform apply --auto-approve
             rm -vfr ~/account.json
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - terraform.plan
 workflows:
   version: 2.1
   tensorflow_workflow:
