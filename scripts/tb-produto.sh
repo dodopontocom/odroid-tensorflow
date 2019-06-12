@@ -59,12 +59,20 @@ do
 								--text "Produto: $(echo -e $produto)" \
 								--parse_mode markdown
 					else
+						message=$(docker run --rm -i -v ${PWD}:/home/tensor-photos $DOCKER_IMAGE python tensor-example.py "/home/tensor-photos/$(echo $file_path)" > $get_random)
+						
+						predicao="Predição: $(tail -2 $get_random | head -1)"
+						
 						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "Erro ao processar, tente outra imagem..." \
+								--text "$(echo -e $predicao)" \
 								--parse_mode markdown
-						ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-								--text "Atente-se à luminosidade e a nitidez do rótulo do produto!" \
-								--parse_mode markdown
+
+						# ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+						# 		--text "Erro ao processar, tente outra imagem..." \
+						# 		--parse_mode markdown
+						# ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+						# 		--text "Atente-se à luminosidade e a nitidez do rótulo do produto!" \
+						# 		--parse_mode markdown
 					fi
 
 					if [[ "$produto" != "---" ]]; then
@@ -93,7 +101,7 @@ do
 								--text "$(echo -e $elapsed)" \
 								--parse_mode markdown
 				}
-				rm -f $file_path
+				rm -vf $file_path
 			}
 		fi
 	) &
