@@ -12,6 +12,13 @@ https://www.tensorflow.org/
 #
 
 ## Pipeline current workFlow  
-[ x ] Development into github
+- [x] Github development  
+- [x] Python scripts  
+- [x] Tensorflow python modules and more  
+- [x] Tensorflow training scripts and more  
+- [x] Upload latest docker image to dockerhub  
+- [x] Perform a simple image recognition test and send result via Telegram Bot    
+- [x] Startup Terraform flow to deploy the solution to GCP  
+- [x] Run the Telegram Bot as daemon from GCP instance    
 
 ![Pipeline workFlow](images/01_dev_flow.jpg)
