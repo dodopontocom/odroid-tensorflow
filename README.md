@@ -9,11 +9,9 @@ https://github.com/shellscriptx/shellbot/wiki
 https://core.telegram.org/bots  
 https://www.tensorflow.org/  
 
-#
-
 ## Pipeline current workFlow  
 - [x] Github development and branching  
-- [x] Circle-ci active and dynamic integration [details](.circleci/README.md)
+- [x] Circle-ci active and dynamic integration ([check details](.circleci/README.md))
 - [x] Python scripts  
 - [x] Tensorflow python modules and more  
 - [x] Tensorflow training scripts and more  
@@ -28,6 +26,8 @@ https://www.tensorflow.org/
 - [ ] Improve Terraform scripts to turn the Bot off during the night and turn it on again in the morning to save GCP hours (money)    
 - [ ] Improve Terraform scripts to better scale the instance up or down  
 - [ ] Check the possibility of using GCP Cluster instead of GCP compute instance (VMs)  
-- [ ] Improve startup metada script [details](Terraform/README-improvements.md)
+- [ ] Improve Terraform startup metada script ([check details](Terraform/README-improvements.md))
+
+#
 
 ![Pipeline workFlow](images/01_dev_flow.jpg)
