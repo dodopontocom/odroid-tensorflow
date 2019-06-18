@@ -19,6 +19,10 @@ https://www.tensorflow.org/
 - [x] Upload latest docker image to dockerhub  
 - [x] Perform a simple image recognition test and send result via Telegram Bot    
 - [x] Startup Terraform flow to deploy the solution to GCP  
-- [x] Run the Telegram Bot as daemon from GCP instance    
+- [x] Run the Telegram Bot on daemon mode from GCP instance  
+- [ ] Run Terraform 'destroy' flow for maintainance  
+- [ ] Improve Terraform scripts to turn the Bot off during the night and turn it on again in the morning    
+- [ ] Improve Terraform scripts to better scale the instance up or down  
+- [ ] Check the possibility of using GCP Cluster instead of GCP compute instance (VMs)    
 
 ![Pipeline workFlow](images/01_dev_flow.jpg)
