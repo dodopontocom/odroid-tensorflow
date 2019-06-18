@@ -26,7 +26,7 @@ https://www.tensorflow.org/
 - [ ] Improve Terraform scripts to turn the Bot off during the night and turn it on again in the morning to save GCP hours (money)    
 - [ ] Improve Terraform scripts to better scale the instance up or down  
 - [ ] Check the possibility of using GCP Cluster instead of GCP compute instance (VMs)  
-- [ ] Improve Terraform startup metada script ([check details](Terraform/README-improvements.md))
+- [ ] Improve Terraform startup metada script ([check details](Terraform/README.md))
 
 #
 
