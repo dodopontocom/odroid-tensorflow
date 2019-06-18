@@ -30,4 +30,9 @@ https://www.tensorflow.org/
 
 #
 
-![Pipeline workFlow](images/01_dev_flow.jpg)
+![Pipeline workFlow](images/01_dev_flow.jpg)  
+
+# Contact  
+rodolfotiago@gmail.com  
+
+
