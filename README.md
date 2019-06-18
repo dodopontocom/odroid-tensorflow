@@ -12,6 +12,6 @@ https://www.tensorflow.org/
 #
 
 ## Pipeline current workFlow  
-[x] Development into github
+[ x ] Development into github
 
 ![Pipeline workFlow](images/01_dev_flow.jpg)
