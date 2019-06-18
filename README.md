@@ -11,4 +11,6 @@ https://www.tensorflow.org/
 
 #
 
+# Pipeline current workFlow  
+
 ![Pipeline workFlow](images/01_dev_flow.jpg)
