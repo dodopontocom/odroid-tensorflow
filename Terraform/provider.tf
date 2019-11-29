@@ -1,5 +1,5 @@
 provider "google" {
   credentials = "${file("~/account.json")}"
-  project     = "odroid-tensorflow-243011"
+  project     = "gcp-my-labs"
   region      = "us-central1"
 }
