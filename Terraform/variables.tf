@@ -1,0 +1,1 @@
+variable "TELEGRAM_TOKEN" { }
