@@ -1,7 +1,8 @@
 #!/bin/bash
+  
+TOKEN=${TELEGRAM_TOKEN}
+CHAT_ID=${NOTIFICATION_IDS}
 
-TOKEN=836946740:AAHC7FPaJMZU7fN34MwJ9Y6NzIWO-tDsRu8
-CHAT_ID=11504381
 MESSAGE="Script Terraform Executado com sucesso"
 URL="https://api.telegram.org/bot$TOKEN/sendMessage"
 
