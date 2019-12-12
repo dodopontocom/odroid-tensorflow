@@ -13,6 +13,12 @@ resource "google_compute_instance" "default" {
       image = "ubuntu-os-cloud/ubuntu-1804-lts"
     }
   }
+  
+  metadata = {
+    TOKEN = "${var.TELEGRAM_TOKEN}"
+    NOTIFICATION_IDS = "11504381"
+  }
+  
   metadata_startup_script = "${file("../scripts/deploy-gcp-v2.sh")}"
 
   network_interface {
